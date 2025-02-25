@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Balence;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -44,6 +45,12 @@ class AuthController extends Controller
             'family_members' => $request->family_members,
             'my_income' => $request->my_income,
             'other_family_income' => $request->other_family_income,
+        ]);
+
+        Balence::create([
+            'user_id' => $user->id,
+            'Montly_income' => $request->my_income + $request->other_family_income,
+            'balance' => $request->my_income + $request->other_family_income,
         ]);
 
         return redirect('login');

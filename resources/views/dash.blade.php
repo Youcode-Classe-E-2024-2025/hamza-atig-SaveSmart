@@ -98,10 +98,11 @@
                         <span class="text-gray-500">Current Balance</span>
                         <i class="fas fa-wallet text-blue-500 text-xl"></i>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">$12,450.00</h2>
+                    <h2 class="text-3xl font-bold text-gray-800">${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('balance') }}
+                    </h2>
                     <div class="flex justify-between mt-4">
                         <div>
-                            <p class="text-green-500 text-sm">+12% this month</p>
+                            <p class="text-green-500 text-sm">0% this month</p>
                         </div>
                         <div>
                             <button class="text-blue-500 hover:text-blue-600 text-sm">View Details</button>
@@ -116,9 +117,9 @@
                     </div>
                     <h2 class="text-3xl font-bold text-gray-800">$5,000.00</h2>
                     <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
-                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 65%"></div>
+                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 1%"></div>
                     </div>
-                    <p class="text-sm text-gray-500 mt-2">65% completed</p>
+                    <p class="text-sm text-gray-500 mt-2">0% completed</p>
                 </div>
 
                 <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
@@ -126,7 +127,7 @@
                         <span class="text-gray-500">Net Income</span>
                         <i class="fas fa-dollar-sign text-purple-500 text-xl"></i>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">$3,200.00</h2>
+                    <h2 class="text-3xl font-bold text-gray-800">${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('Montly_income') }}</h2>
                     <div class="flex justify-between mt-4">
                         <div>
                             <p class="text-sm text-gray-500">This month</p>
