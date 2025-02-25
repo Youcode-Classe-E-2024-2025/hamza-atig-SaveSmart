@@ -85,9 +85,109 @@
                             class="bg-white rounded-full px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     </div>
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full">
+                    <button id="newTransactionButton"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full">
                         + New Transaction
                     </button>
+                </div>
+            </div>
+
+            <div id="transactionForm"
+                class="hidden z-10 fixed right-0 top-0 h-screen w-96 bg-white shadow-2xl overflow-y-auto transform transition-transform duration-300 ease-in-out translate-x-full">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">New Transaction</h2>
+                        <button id="closeForm" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <form class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                            <div class="flex space-x-4">
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="type" value="income" class="form-radio text-green-500">
+                                    <span class="text-green-600 font-medium">Income</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="radio" name="type" value="expense" class="form-radio text-red-500">
+                                    <span class="text-red-600 font-medium">Expense</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div
+                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                    <i class="fas fa-shopping-cart text-blue-500 text-2xl"></i>
+                                    <span class="text-sm text-gray-600">Shopping</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                    <i class="fas fa-utensils text-green-500 text-2xl"></i>
+                                    <span class="text-sm text-gray-600">Food</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                    <i class="fas fa-bolt text-yellow-500 text-2xl"></i>
+                                    <span class="text-sm text-gray-600">Utilities</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                    <i class="fas fa-plane text-purple-500 text-2xl"></i>
+                                    <span class="text-sm text-gray-600">Travel</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                    <i class="fas fa-piggy-bank text-teal-500 text-2xl"></i>
+                                    <span class="text-sm text-gray-600">Savings</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                    <i class="fas fa-ellipsis-h text-gray-500 text-2xl"></i>
+                                    <span class="text-sm text-gray-600">Other</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Amount</label>
+                            <div class="relative mt-1">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500">$</span>
+                                </div>
+                                <input type="number" name="amount"
+                                    class="block w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                    placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                            <input type="date"
+                                class="block w-full pr-10 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Note</label>
+                            <textarea rows="3"
+                                class="block w-full pr-10 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                placeholder="Add a note..."></textarea>
+                        </div>
+
+                        <div>
+                            <button type="submit"
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+                                Save Transaction
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -98,7 +198,8 @@
                         <span class="text-gray-500">Current Balance</span>
                         <i class="fas fa-wallet text-blue-500 text-xl"></i>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('balance') }}
+                    <h2 class="text-3xl font-bold text-gray-800">
+                        ${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('balance') }}
                     </h2>
                     <div class="flex justify-between mt-4">
                         <div>
@@ -127,7 +228,8 @@
                         <span class="text-gray-500">Net Income</span>
                         <i class="fas fa-dollar-sign text-purple-500 text-xl"></i>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('Montly_income') }}</h2>
+                    <h2 class="text-3xl font-bold text-gray-800">
+                        ${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('Montly_income') }}</h2>
                     <div class="flex justify-between mt-4">
                         <div>
                             <p class="text-sm text-gray-500">This month</p>
@@ -271,6 +373,28 @@
             });
         </script>
     </body>
+    <script>
+        document.getElementById('newTransactionButton').addEventListener('click', function () {
+            var profileForm = document.getElementById('transactionForm');
+            profileForm.classList.toggle('hidden');
+            profileForm.style.transform = 'translateX(100%)';
+            profileForm.style.transition = 'transform 0.3s ease-in-out';
+            requestAnimationFrame(function () {
+                profileForm.style.transform = 'translateX(0)';
+            });
+        });
+        document.querySelector('#closeForm').addEventListener('click', () => {
+            var profileForm = document.getElementById('transactionForm');
+            profileForm.style.transform = 'translateX(0)';
+            profileForm.style.transition = 'transform 0.3s ease-in-out';
+            requestAnimationFrame(function () {
+                profileForm.style.transform = 'translateX(100%)';
+            });
+            setTimeout(() => {
+                profileForm.classList.toggle('hidden');
+            }, 200);
+        });
+    </script>
 @else
     <script>window.location.href = "{{ route('login') }}";</script>
 @endif
