@@ -47,7 +47,7 @@
                     <a href="/login" class="text-white hover:underline">Log in</a>
                 </p>
 
-                <form action="/signup" method="POST" class="space-y-4">
+                <form action="{{ route('signup') }}" method="POST" class="space-y-4">
                     @csrf
                     <div class="flex flex-col md:flex-row gap-4">
                         <input type="text" name="full_name" placeholder="Full name"

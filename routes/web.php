@@ -22,3 +22,12 @@ Route::get('/login', function () {
 Route::get('/signup', function () {
     return view('signup');
 });
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
+
+Route::post('/signup', [App\Http\Controllers\UserController::class, 'store'])->name('signup');
+
+Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
+
+// Route::get('/profile/{user}', [App\Http\Controllers\UserController::class, 'show'])->name('show');
