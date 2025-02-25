@@ -26,6 +26,10 @@ Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
 
+Route::get('/dash', function () {
+    return view('dash');
+})->name('dash');
+
 Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->name('signup');
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
