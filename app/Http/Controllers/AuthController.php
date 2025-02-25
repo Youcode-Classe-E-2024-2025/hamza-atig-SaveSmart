@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -76,8 +76,35 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy()
     {
-        //
+        auth()->logout();
+        return redirect('login');
+    }
+
+    public function login(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (auth()->attempt($credentials)) {
+            $request->session()->regenerate();
+
+            $user = User::where('email', $request->email)->first();
+            session()->put('full_name', $user->full_name);
+            session()->put('my_income', $user->my_income);
+            session()->put('other_family_income', $user->other_family_income);
+            session()->put('email', $user->email);
+            session()->put('family_members', $user->family_members);
+
+            return redirect()->intended('/profile');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 }

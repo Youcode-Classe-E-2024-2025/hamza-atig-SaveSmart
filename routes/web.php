@@ -26,8 +26,12 @@ Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
 
-Route::post('/signup', [App\Http\Controllers\UserController::class, 'store'])->name('signup');
+Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->name('signup');
 
-Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
+
+Route::post('/logout', [App\Http\Controllers\AuthController::class, 'destroy'])->name('logout');
+
+Route::get('/home', [App\Http\Controllers\AuthController::class, 'index'])->name('home');
 
 // Route::get('/profile/{user}', [App\Http\Controllers\UserController::class, 'show'])->name('show');
