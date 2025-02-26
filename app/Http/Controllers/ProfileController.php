@@ -77,7 +77,11 @@ class ProfileController extends Controller
      */
     public function destroy(profile $profile)
     {
-        //
+        session()->forget('profile_id');
+        session()->forget('full_name');
+        session()->forget('avatar');
+
+        return redirect('/profile');
     }
 
     public function checkPassword(Request $request, profile $profile)
