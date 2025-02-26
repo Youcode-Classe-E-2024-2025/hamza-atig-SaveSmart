@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -20,7 +21,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -29,7 +30,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|integer|exists:users,id', 
+            'user_id' => 'required|integer|exists:users,id',
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'full_name' => 'required|string|max:255',
             'password' => 'required|string|min:8',
@@ -50,9 +51,13 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(profile $profile)
+    public function show(User $user)
     {
-        //
+        $profileId = $user->id;
+        session()->forget('clicked_profile_id');
+        session(['clicked_profile_id' => $profileId]);
+
+        return redirect('dash');
     }
 
     /**

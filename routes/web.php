@@ -24,13 +24,15 @@ Route::get('/signup', function () {
 });
 Route::get('/profile', function () {
     return view('profile');
-})->name('profile');
+})->name('profile')->middleware('auth');
 
 Route::get('/dash', function () {
     return view('dash');
 })->name('dash');
 
 Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->name('signup');
+
+Route::get('/dash/{user}', [App\Http\Controllers\ProfileController::class, 'show'])->name('dash');
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 
