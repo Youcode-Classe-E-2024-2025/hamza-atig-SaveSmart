@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('avatar');
-            $table->string('full_name')->unique();
+            $table->string('full_name');
             $table->string('password');
             $table->integer('spended');
             $table->rememberToken();

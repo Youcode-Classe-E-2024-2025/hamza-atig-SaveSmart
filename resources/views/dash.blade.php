@@ -62,10 +62,10 @@
 
             <div class="absolute bottom-0 pb-4">
                 <div class="flex items-center space-x-3 bg-blue-700 p-3 rounded-lg transition duration-200">
-                    <img src="https://randomuser.me/api/portraits/men/1.jpg" class="w-8 h-8 rounded-full">
+                    <img src="{{ asset('storage/' . session('avatar')) }}" class="w-8 h-8 rounded-full">
                     <div>
-                        <div class="text-sm font-medium">John Doe</div>
-                        <div class="text-xs text-gray-400 truncate">john.doe@example.com</div>
+                        <div class="text-sm font-medium">{{ session('full_name') }}</div>
+                        <div class="text-xs text-gray-400 truncate">{{ auth()->user()->email }}</div>
                     </div>
                     <button class="ml-auto text-red-500 hover:text-red-600">
                         <i class="fas fa-sign-out-alt"></i>

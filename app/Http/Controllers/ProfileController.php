@@ -53,11 +53,7 @@ class ProfileController extends Controller
      */
     public function show(User $user)
     {
-        $profileId = $user->id;
-        session()->forget('clicked_profile_id');
-        session(['clicked_profile_id' => $profileId]);
 
-        return redirect('dash');
     }
 
     /**
@@ -82,5 +78,27 @@ class ProfileController extends Controller
     public function destroy(profile $profile)
     {
         //
+    }
+
+    public function checkPassword(Request $request, profile $profile)
+    {
+        // $id = substr($request->url(), strrpos($request->url(), '/') + 1);
+        $id = $profile->id;
+        $password = $request->input('password');
+
+        $profile = profile::where('id', $id)->first();
+
+        if ($profile && password_verify($password, $profile->password)) {
+            session()->forget('profile_id');
+            session()->forget('full_name');
+            session()->forget('avatar');
+            session()->put('profile_id', $profile->id);
+            session()->put('full_name', $profile->full_name);
+            session()->put('avatar', $profile->avatar);
+
+            return redirect('/dash/');
+        } else {
+            return redirect()->back()->withInput()->withErrors(['password' => 'Invalid password']);
+        }
     }
 }

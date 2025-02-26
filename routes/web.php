@@ -34,6 +34,8 @@ Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->n
 
 Route::get('/dash/{user}', [App\Http\Controllers\ProfileController::class, 'show'])->name('dash');
 
+Route::post('/ispofile/{profile}', [App\Http\Controllers\ProfileController::class, 'checkPassword'])->name('dash');
+
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'destroy'])->name('logout');

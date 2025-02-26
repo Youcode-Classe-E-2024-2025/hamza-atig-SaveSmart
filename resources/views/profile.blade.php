@@ -23,7 +23,7 @@
                     <div class="profile cursor-pointer">
                         <!-- <a href="/dash/{{ $profile->id }}"> -->
                         <img value="{{ $profile->id }}" id="profileImage" src="{{ asset('storage/' . $profile->avatar) }}"
-                            alt="{{ $profile->full_name }}" class="rounded-lg shadow-lg h-[100px] w-auto cursor-pointer">
+                            alt="{{ $profile->full_name }}" class="rounded-lg shadow-lg h-[100px] w-[100px] cursor-pointer">
                         <p class="mt-2 text-lg font-medium">{{ $profile->full_name }}</p>
                     </div>
                 @endforeach
@@ -77,14 +77,17 @@
         <div id="passwordForm" class="hidden">
             <div
                 class="fixed inset-0 flex items-center justify-center mt-0 text-sm text-gray-600 flex flex-col bg-white p-6 rounded-lg shadow-lg">
-                <img id="avatarImage" class="rounded-lg shadow-lg h-[100px] w-auto mb-4">
-                <label for="password" class="font-semibold block mb-2">Enter your password</label>
-                <input type="password" name="password" id="password" placeholder="Enter password"
-                    class="w-[20%] mt-1 border border-[#A0ABBB] p-2 rounded-[4px]">
-                <div class="mt-4 flex gap-3">
-                    <button id="confirmBtn" class="bg-blue-500 text-white px-4 py-2 rounded">Confirm</button>
-                    <button id="closeBtn" class="bg-gray-500 text-white px-4 py-2 rounded">Close</button>
-                </div>
+                <img id="avatarImage" class="rounded-lg shadow-lg h-[100px] w-[100px] mb-4">
+                <form method="POST" enctype="multipart/form-data" class="mt-4 flex flex-col gap-3 w-[30%]">
+                    @csrf
+                    <label for="password" class="font-semibold block mb-2 text-center">Enter your password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter password"
+                        class="w-[100%] mt-1 border border-[#A0ABBB] p-2 rounded-[4px]">
+                    <div class="flex flex-row gap-4">
+                        <button id="confirmBtn" class="bg-blue-500 text-white px-4 py-2 rounded w-1/2">Confirm</button>
+                        <button id="closeBtn" class="bg-gray-500 text-white px-4 py-2 rounded w-1/2">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -128,10 +131,13 @@
                 var number = parseInt(this.getAttribute('value'));
                 document.getElementById('passwordForm').classList.remove('hidden');
                 document.getElementById('avatarImage').src = `/storage/images/${this.src.split('/').pop()}`;
+                document.querySelector('#passwordForm form').action = `/ispofile/${number}`;
+
             });
         });
 
-        document.getElementById('closeBtn').addEventListener('click', function () {
+        document.getElementById('closeBtn').addEventListener('click', function (event) {
+            event.preventDefault();
             document.getElementById('passwordForm').classList.add('hidden');
         });
     </script>
