@@ -28,11 +28,9 @@ Route::get('/profile', function () {
 
 Route::get('/dash', function () {
     return view('dash');
-})->name('dash');
+})->name('dash')->middleware('VerifyLoggedProfile');
 
 Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->name('signup');
-
-Route::get('/dash/{user}', [App\Http\Controllers\ProfileController::class, 'show'])->name('dash');
 
 Route::get('/logout-profile', [App\Http\Controllers\ProfileController::class, 'destroy']);
 
