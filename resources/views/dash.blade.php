@@ -282,42 +282,36 @@
                     <button class="text-blue-500 hover:text-blue-600 text-sm">View All</button>
                 </div>
                 <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="bg-red-100 p-2 rounded-full">
-                                <i class="fas fa-shopping-cart text-red-600"></i>
+                    @foreach (\App\Models\History::where('profile_id', session('profile_id'))->get() as $transaction)
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="{{ $transaction->type == 'income' ? 'bg-green-100' : 'bg-red-100' }} p-2 rounded-full">
+                                    <script>
+                                        var categories = {
+                                            "Food": "fas fa-utensils",
+                                            "Transportation": "fas fa-bus",
+                                            "Entertainment": "fas fa-gamepad",
+                                            "Housing": "fas fa-home",
+                                            "Insurance": "fas fa-shield-alt",
+                                            "Healthcare": "fas fa-medkit",
+                                            "Debt": "fas fa-credit-card",
+                                            "Savings": "fas fa-piggy-bank",
+                                            "Gifts": "fas fa-gift",
+                                            "Miscellaneous": "fas fa-question-circle",
+                                            "Not Exist": "fa-solid fa-cubes",
+                                        };
+                                        var category = "{{ $transaction->category }}";
+                                        document.write(`<i class="${categories[category]} {{ $transaction->category == 'Not Exist' && $transaction->type == 'income' ? 'text-green-600' : 'text-red-600' }}"></i>`);
+                                    </script>
+                                </div>
+                                <div>
+                                    <p class="font-medium">{{ $transaction->category == 'Not Exist' ? 'Other' : $transaction->category }}</p>
+                                    <p class="text-xs text-gray-500">{{ $transaction->date }},{{ \App\Models\Profile::where('id', session('profile_id'))->value('full_name') }}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="font-medium">Walmart</p>
-                                <p class="text-xs text-gray-500">Jan 15, 2023</p>
-                            </div>
+                            <span class="{{ $transaction->type == 'income' ? 'text-green-500' : 'text-red-500' }}">{{ $transaction->type == 'income' ? '+' : '-' }}${{ $transaction->amount }}</span>
                         </div>
-                        <span class="text-red-600">-$89.99</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="bg-green-100 p-2 rounded-full">
-                                <i class="fas fa-utensils text-green-600"></i>
-                            </div>
-                            <div>
-                                <p class="font-medium">Restaurant</p>
-                                <p class="text-xs text-gray-500">Jan 14, 2023</p>
-                            </div>
-                        </div>
-                        <span class="text-red-600">-$45.50</span>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="bg-blue-100 p-2 rounded-full">
-                                <i class="fas fa-gas-pump text-blue-600"></i>
-                            </div>
-                            <div>
-                                <p class="font-medium">Gas Station</p>
-                                <p class="text-xs text-gray-500">Jan 13, 2023</p>
-                            </div>
-                        </div>
-                        <span class="text-red-600">-$32.75</span>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
