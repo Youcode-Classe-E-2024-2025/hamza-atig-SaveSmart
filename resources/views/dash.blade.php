@@ -105,7 +105,7 @@
                         </button>
                     </div>
 
-                    <form class="space-y-6">
+                    <form action="/add-transaction" method="POST" class="space-y-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
                             <div class="flex space-x-4">

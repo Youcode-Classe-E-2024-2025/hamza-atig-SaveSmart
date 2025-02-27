@@ -52,7 +52,9 @@ class HistoryController extends Controller
      */
     public function update(Request $request, History $history)
     {
-        //
+        $request->validate([
+            
+        ]);
     }
 
     /**

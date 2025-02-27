@@ -17,6 +17,9 @@
 
     <body class="bg-white flex flex-col items-center justify-center h-screen">
         <div class="text-center">
+            @error('password')
+                <p class="text-red-500 text-lg mb-4">{{ $message }}</p>
+            @enderror
             <h1 class="text-4xl font-semibold mb-8">Select a Viewer</h1>
             <div class="flex gap-6 justify-center">
                 @foreach (\App\Models\Profile::where('user_id', auth()->id())->get() as $profile)
