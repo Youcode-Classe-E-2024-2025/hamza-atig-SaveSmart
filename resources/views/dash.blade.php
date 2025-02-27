@@ -302,6 +302,7 @@
                                         var categories = {
                                             "Food": "fas fa-utensils",
                                             "Transportation": "fas fa-bus",
+                                            'Travel': "fas fa-plane",
                                             "Entertainment": "fas fa-gamepad",
                                             "Housing": "fas fa-home",
                                             "Insurance": "fas fa-shield-alt",

@@ -34,7 +34,7 @@ class HistoryController extends Controller
             'type' => 'required',
             'amount' => 'required',
             'note' => 'nullable',
-            'category' => 'nullable',
+            'category' => 'nullable|string|default:Not Exist',
             'date' => 'required|date',
         ]);
 
