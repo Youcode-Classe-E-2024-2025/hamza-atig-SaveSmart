@@ -37,7 +37,7 @@ Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->n
 
 Route::get('/logout-profile', [App\Http\Controllers\ProfileController::class, 'destroy']);
 
-Route::post('/ispofile/{profile}', [App\Http\Controllers\ProfileController::class, 'checkPassword'])->name('dash');
+Route::post('/ispofile/{profile}', [App\Http\Controllers\ProfileController::class, 'checkPassword']);
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 
@@ -48,5 +48,7 @@ Route::post('/createprofile', [App\Http\Controllers\ProfileController::class, 's
 Route::get('/home', [App\Http\Controllers\AuthController::class, 'index'])->name('home');
 
 Route::post('/transaction', [App\Http\Controllers\HistoryController::class, 'store'])->name('transaction');
+
+Route::post('/updateIncome', [App\Http\Controllers\BalenceController::class, 'update'])->name('updateIncome');
 
 // Route::get('/profile/{user}', [App\Http\Controllers\UserController::class, 'show'])->name('show');

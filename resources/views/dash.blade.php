@@ -253,8 +253,9 @@
                     <h2 id="monthlyIncome" class="text-3xl font-bold text-gray-800">
                         ${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('Montly_income') }}</h2>
                     <form action="/updateIncome" method="POST" class="hidden flex flex-row text-3xl font-bold text-gray-800" id="inputField">
+                        @csrf
                         <h2 class="mr-2">$</h2>
-                        <input type="number" id="inputField" class="w-full text-gray-800 font-bold" placeholder="">
+                        <input type="Montly_income" name="Montly_income" id="inputField" class="w-full text-gray-800 font-bold border" placeholder="1">
                     </form>
                     <div class="flex justify-between mt-4">
                         <div>

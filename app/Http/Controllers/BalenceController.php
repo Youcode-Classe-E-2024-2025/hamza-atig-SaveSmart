@@ -52,7 +52,16 @@ class BalenceController extends Controller
      */
     public function update(Request $request, Balence $balence)
     {
-        //
+
+        $request->validate([
+            'Montly_income' => 'required|integer|min:0',
+        ]);
+
+        $balence->where('user_id', auth()->id())->update([
+            'Montly_income' => $request->input('Montly_income')
+        ]);
+
+        return redirect()->route('dash');
     }
 
     /**
