@@ -109,18 +109,18 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
                             <div class="flex space-x-4">
-                                <label class="flex items-center space-x-2">
+                                <label id="incomeRadio" class="flex items-center space-x-2">
                                     <input type="radio" name="type" value="income" class="form-radio text-green-500">
                                     <span class="text-green-600 font-medium">Income</span>
                                 </label>
-                                <label class="flex items-center space-x-2">
+                                <label id="expenseRadio" class="flex items-center space-x-2">
                                     <input type="radio" name="type" value="expense" class="form-radio text-red-500">
                                     <span class="text-red-600 font-medium">Expense</span>
                                 </label>
                             </div>
                         </div>
 
-                        <div>
+                        <div id="categoryContainer" class="hidden">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                             <div class="grid grid-cols-3 gap-3">
                                 <div
@@ -393,6 +393,28 @@
             setTimeout(() => {
                 profileForm.classList.toggle('hidden');
             }, 200);
+        });
+        document.getElementById('expenseRadio').addEventListener('change', function () {
+            document.getElementById('categoryContainer').classList.remove('hidden');
+            document.getElementById('categoryContainer').style.transform = 'translateY(-30%)';
+            document.getElementById('categoryContainer').style.transition = 'transform 0.4s ease-in-out';
+            requestAnimationFrame(function () {
+                document.getElementById('categoryContainer').style.transform = 'translateY(0)';
+            });
+        });
+
+        document.getElementById('incomeRadio').addEventListener('change', function () {
+            if (!document.getElementById('categoryContainer').classList.contains('hidden')) {
+                document.getElementById('categoryContainer').classList.add('hidden');
+                document.getElementById('categoryContainer').style.transform = 'translateY(30%)';
+                document.getElementById('categoryContainer').style.transition = 'opacity 0.4s ease-in-out, transform 0.4s ease-in-out';
+                document.getElementById('categoryContainer').style.opacity = '0';
+                requestAnimationFrame(function () {
+                    document.getElementById('categoryContainer').style.opacity = '1';
+                    document.getElementById('categoryContainer').style.transform = 'translateY(0)';
+                });
+
+            }
         });
     </script>
 @else
