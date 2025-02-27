@@ -37,6 +37,8 @@ Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->n
 
 Route::get('/logout-profile', [App\Http\Controllers\ProfileController::class, 'destroy']);
 
+Route::get('/deleteprofile/{profile}', [App\Http\Controllers\ProfileController::class, 'delete'])->name('deleteprofile');
+
 Route::post('/ispofile/{profile}', [App\Http\Controllers\ProfileController::class, 'checkPassword']);
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');

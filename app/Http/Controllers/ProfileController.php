@@ -105,4 +105,17 @@ class ProfileController extends Controller
             return redirect()->back()->withInput()->withErrors(['password' => 'Invalid password']);
         }
     }
+
+    public function delete(Request $request, profile $profile)
+    {
+        $id = $profile->id;
+
+        $profile = profile::where('id', $id)->first();
+
+        if ($profile) {
+            $profile->delete();
+        }
+
+        return redirect('/profile');
+    }
 }

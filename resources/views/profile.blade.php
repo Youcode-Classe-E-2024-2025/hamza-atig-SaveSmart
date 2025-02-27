@@ -90,6 +90,7 @@
                         <button id="confirmBtn" class="bg-blue-500 text-white px-4 py-2 rounded w-1/2">Confirm</button>
                         <button id="closeBtn" class="bg-gray-500 text-white px-4 py-2 rounded w-1/2">Close</button>
                     </div>
+                    <a href="/deleteprofile/{{ $profile->id }}" class="bg-red-500 text-white px-4 py-2 rounded shadow-lg hover:bg-red-600 transition text-center cursor-pointer">Delete Profile</a>
                 </form>
             </div>
         </div>
