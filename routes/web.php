@@ -47,4 +47,6 @@ Route::post('/createprofile', [App\Http\Controllers\ProfileController::class, 's
 
 Route::get('/home', [App\Http\Controllers\AuthController::class, 'index'])->name('home');
 
+Route::post('/transaction', [App\Http\Controllers\HistoryController::class, 'store'])->name('transaction');
+
 // Route::get('/profile/{user}', [App\Http\Controllers\UserController::class, 'show'])->name('show');

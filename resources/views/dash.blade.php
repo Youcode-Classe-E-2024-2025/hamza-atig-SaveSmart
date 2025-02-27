@@ -105,7 +105,8 @@
                         </button>
                     </div>
 
-                    <form action="/add-transaction" method="POST" class="space-y-6">
+                    <form action="/transaction" method="POST" class="space-y-6">
+                        @csrf
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
                             <div class="flex space-x-4">
@@ -123,38 +124,52 @@
                         <div id="categoryContainer" class="hidden">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                             <div class="grid grid-cols-3 gap-3">
-                                <div
-                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                <div class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item"
+                                    data-category="Shopping">
                                     <i class="fas fa-shopping-cart text-blue-500 text-2xl"></i>
                                     <span class="text-sm text-gray-600">Shopping</span>
                                 </div>
-                                <div
-                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                <div class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item"
+                                    data-category="Food">
                                     <i class="fas fa-utensils text-green-500 text-2xl"></i>
                                     <span class="text-sm text-gray-600">Food</span>
                                 </div>
-                                <div
-                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                <div class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item"
+                                    data-category="Utilities">
                                     <i class="fas fa-bolt text-yellow-500 text-2xl"></i>
                                     <span class="text-sm text-gray-600">Utilities</span>
                                 </div>
-                                <div
-                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                <div class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item"
+                                    data-category="Travel">
                                     <i class="fas fa-plane text-purple-500 text-2xl"></i>
                                     <span class="text-sm text-gray-600">Travel</span>
                                 </div>
-                                <div
-                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                <div class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item"
+                                    data-category="Savings">
                                     <i class="fas fa-piggy-bank text-teal-500 text-2xl"></i>
                                     <span class="text-sm text-gray-600">Savings</span>
                                 </div>
-                                <div
-                                    class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item">
+                                <div class="flex flex-col items-center space-y-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer category-item"
+                                    data-category="Other">
                                     <i class="fas fa-ellipsis-h text-gray-500 text-2xl"></i>
                                     <span class="text-sm text-gray-600">Other</span>
                                 </div>
                             </div>
+                            <input type="hidden" name="category" value="">
                         </div>
+
+                        <script>
+                            const categoryItems = document.querySelectorAll('.category-item');
+                            const categoryInput = document.querySelector('input[name="category"]');
+
+                            categoryItems.forEach(item => {
+                                item.addEventListener('click', () => {
+                                    categoryInput.value = item.getAttribute('data-category') || null;
+                                    categoryItems.forEach(i => i.style.backgroundColor = '');
+                                    item.style.backgroundColor = '#e2e8f0';
+                                });
+                            });
+                        </script>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Amount</label>
@@ -169,8 +184,8 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
-                            <input type="date"
+                            <label class="block text-sm font-medium text-gray-700 mb-2" for="date">Date</label>
+                            <input id="date" name="date" type="date"
                                 class="block w-full pr-10 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
 
@@ -178,7 +193,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Note</label>
                             <textarea rows="3"
                                 class="block w-full pr-10 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                placeholder="Add a note..."></textarea>
+                                placeholder="Add a note..." name="note"></textarea>
                         </div>
 
                         <div>
