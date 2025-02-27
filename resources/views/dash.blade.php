@@ -240,11 +240,22 @@
 
                 <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-gray-500">Net Income</span>
+                        <span class="text-gray-500">Montly Income 
+                            <button id="editButton" class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                <i class="fas fa-pencil-alt text-sm"></i>
+                            </button>
+                            <button type="submit" id="saveButton" class="hidden ml-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                <i class="fas fa-save text-sm"></i>
+                            </button>
+                        </span>
                         <i class="fas fa-dollar-sign text-purple-500 text-xl"></i>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">
+                    <h2 id="monthlyIncome" class="text-3xl font-bold text-gray-800">
                         ${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('Montly_income') }}</h2>
+                    <form action="/updateIncome" method="POST" class="hidden flex flex-row text-3xl font-bold text-gray-800" id="inputField">
+                        <h2 class="mr-2">$</h2>
+                        <input type="number" id="inputField" class="w-full text-gray-800 font-bold" placeholder="">
+                    </form>
                     <div class="flex justify-between mt-4">
                         <div>
                             <p class="text-sm text-gray-500">This month</p>
@@ -425,6 +436,18 @@
 
             }
         });
+
+        document.getElementById('editButton').addEventListener('click', function () {
+            document.getElementById('inputField').classList.remove('hidden');
+            document.getElementById('monthlyIncome').classList.add('hidden');
+            document.getElementById('editButton').classList.add('hidden');
+            document.getElementById('saveButton').classList.remove('hidden');
+        });
+
+        document.getElementById('saveButton').addEventListener('click', function () {
+            document.getElementById('inputField').submit();
+        });
+
     </script>
 @else
     <script>window.location.href = "{{ route('login') }}";</script>
