@@ -161,7 +161,7 @@
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Completed Goals</p>
                         <h3 class="text-2xl font-bold text-gray-800">
-                            {{ \App\Models\Goal::where('status', 'completed')->count() }}
+                            {{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'completed')->count() }}
                         </h3>
                     </div>
                 </div>
