@@ -52,23 +52,34 @@
                             </div>
                         </div>
 
-                        <form action="/createprofile" method="POST" enctype="multipart/form-data" class="mt-6">
+                        <form action="/createprofile" method="POST" enctype="multipart/form-data" class="space-y-6">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                            <label for="avatar" class="font-semibold">Profile Picture</label>
-                            <input type="file" name="avatar" id="avatar"
-                                class="w-full mt-1 border border-[#A0ABBB] p-2 rounded-[4px]">
 
-                            <label for="full_name" class="font-semibold mt-4 block">Full Name</label>
-                            <input type="text" name="full_name" id="full_name" placeholder="Enter full name"
-                                class="w-full mt-1 border border-[#A0ABBB] p-2 rounded-[4px]">
+                            <div>
+                                <label for="avatar" class="block text-sm font-medium text-gray-700 mb-1">Profile
+                                    Picture</label>
+                                <div class="relative">
+                                    <input type="file" name="avatar" id="avatar"
+                                        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                </div>
+                            </div>
 
-                            <label for="password" class="font-semibold mt-4 block">Password</label>
-                            <input type="password" name="password" id="password" placeholder="Enter password"
-                                class="w-full mt-1 border border-[#A0ABBB] p-2 rounded-[4px]">
+                            <div>
+                                <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Full
+                                    Name</label>
+                                <input type="text" name="full_name" id="full_name" placeholder="Enter full name"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <input type="password" name="password" id="password" placeholder="Enter password"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
 
                             <button type="submit"
-                                class="mt-6 w-full cursor-pointer rounded-[4px] bg-green-700 px-3 py-2 text-center font-semibold text-white hover:bg-green-800 transition">
+                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
                                 Create Profile
                             </button>
                         </form>
@@ -91,7 +102,9 @@
                         <button id="closeBtn" class="bg-gray-500 text-white px-4 py-2 rounded w-1/2">Close</button>
                     </div>
                     @if ($profile = \App\Models\Profile::where('user_id', auth()->id())->first())
-                        <a href="/deleteprofile/{{ $profile->id }}" class="bg-red-500 text-white px-4 py-2 rounded shadow-lg hover:bg-red-600 transition text-center cursor-pointer">Delete Profile</a>
+                        <a href="/deleteprofile/{{ $profile->id }}"
+                            class="bg-red-500 text-white px-4 py-2 rounded shadow-lg hover:bg-red-600 transition text-center cursor-pointer">Delete
+                            Profile</a>
                     @endif
                 </form>
             </div>
