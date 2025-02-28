@@ -41,7 +41,7 @@
     <div id="sweetAlert"
         class="fixed top-0 left-0 w-full flex justify-center z-50 transform -translate-y-full transition-transform duration-500">
         @if (session('success'))
-            <div class="bg-green-500 shadow-lg rounded-lg m-4 max-w-md w-full overflow-hidden">
+            <div class="bg-{{ session('success') == 'Goal deleted successfully' ? 'red-500' : 'green-500' }} shadow-lg rounded-lg m-4 max-w-md w-full overflow-hidden">
                 <div class="flex items-center p-4">
                     <div class="flex-shrink-0 mr-4">
                         <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -295,7 +295,7 @@
                 </div>
 
                 <!-- Goals List -->
-                <div class="space-y-5">
+                <div class="space-y-5 max-h-[300px] overflow-y-auto">
                     @foreach (\App\Models\Goal::where('profile_id', session('profile_id'))->get() as $goal)
                         <div
                             class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
@@ -321,9 +321,9 @@
                                             <button class="text-gray-400 hover:text-indigo-600 transition-colors">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </button>
-                                            <button class="text-gray-400 hover:text-red-600 transition-colors">
+                                            <a href="/deletegoal/{{ $goal->id }}" class="text-gray-400 hover:text-red-600 transition-colors">
                                                 <i class="fas fa-trash"></i>
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
 
@@ -418,6 +418,32 @@
             let timeoutId;
 
             if (alert && alert.querySelector('.bg-green-500')) {
+                setTimeout(() => {
+                    alert.classList.remove('-translate-y-full');
+                    alert.classList.add('translate-y-0');
+
+                    let width = 100;
+                    const duration = 5000;
+                    const interval = 50;
+                    const step = (interval / duration) * 100;
+
+                    const timer = setInterval(() => {
+                        width -= step;
+                        if (width <= 0) {
+                            clearInterval(timer);
+                            width = 0;
+                        }
+                        if (progressBar) {
+                            progressBar.style.width = width + '%';
+                        }
+                    }, interval);
+
+                    timeoutId = setTimeout(() => {
+                        closeAlert();
+                    }, 5000);
+                }, 100);
+            }
+            if (alert && alert.querySelector('.bg-red-500')) {
                 setTimeout(() => {
                     alert.classList.remove('-translate-y-full');
                     alert.classList.add('translate-y-0');

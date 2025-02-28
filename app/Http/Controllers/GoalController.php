@@ -57,7 +57,7 @@ class GoalController extends Controller
             'amount' => $request->amount,
             'avatar' => $request->file('avatar')->store('images', 'public'),
             'target_date' => $request->target_date,
-            'description' => $request->description,
+            'description' => $request->description ?? 'No description provided',
             'current_amount' => 0,
             'status' => 'active',
         ]);
@@ -95,6 +95,8 @@ class GoalController extends Controller
      */
     public function destroy(goal $goal)
     {
-        //
+        $goal->delete();
+
+        return back()->with('success', 'Goal deleted successfully');
     }
 }
