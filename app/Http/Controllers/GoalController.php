@@ -57,9 +57,10 @@ class GoalController extends Controller
             'amount' => $request->amount,
             'avatar' => $request->file('avatar')->store('images', 'public'),
             'target_date' => $request->target_date,
-            'description' => $request->description
+            'description' => $request->description,
+            'status' => 'active',
         ]);
-        
+
         return back()->with('success', 'Goal created successfully');
 
     }

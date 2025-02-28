@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('avatar');
             $table->date('target_date');
             $table->string('description');
+            $table->enum('status', ['active', 'completed'])->default('active');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
