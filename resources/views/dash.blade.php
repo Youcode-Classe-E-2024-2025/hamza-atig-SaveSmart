@@ -256,7 +256,7 @@
                         </div>
                     </div>
                     <p class="text-sm text-gray-600 font-medium mt-2">
-                        {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%
+                        {{ \App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0 ? (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) : 0 }}%
                         completed
                     </p>
                 </div>
@@ -367,7 +367,7 @@
 
                 <div class="divide-y divide-gray-50">
                     @php
-                        $transactions = \App\Models\History::where('profile_id', session('profile_id'))
+                        $transactions = \App\Models\History::where('user_id', auth()->user()->id)
                             ->orderByDesc('created_at')
                             ->paginate(5);
                     @endphp
