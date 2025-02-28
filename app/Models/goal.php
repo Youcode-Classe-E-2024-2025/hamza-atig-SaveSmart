@@ -15,6 +15,7 @@ class goal extends Model
         'amount',
         'avatar',
         'target_date',
+        'current_amount',
         'description',
         'user_id',
         'profile_id',

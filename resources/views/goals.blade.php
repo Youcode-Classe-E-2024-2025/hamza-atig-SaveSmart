@@ -131,7 +131,8 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Active Goals</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Goal::where('status', 'active')->count() }}</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">
+                            {{ \App\Models\Goal::where('status', 'active')->count() }}</h3>
                     </div>
                 </div>
             </div>
@@ -143,7 +144,9 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Total Goal Amount</p>
-                        <h3 class="text-2xl font-bold text-gray-800">${{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->sum('amount') }} </h3>
+                        <h3 class="text-2xl font-bold text-gray-800">
+                            ${{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->sum('amount') }}
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -155,7 +158,8 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Completed Goals</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Goal::where('status', 'completed')->count() }}</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">
+                            {{ \App\Models\Goal::where('status', 'completed')->count() }}</h3>
                     </div>
                 </div>
             </div>
@@ -167,7 +171,9 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Achievement Rate</p>
-                        <h3 class="text-2xl font-bold text-gray-800">{{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">
+                            {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -286,172 +292,61 @@
 
                 <!-- Goals List -->
                 <div class="space-y-5">
-                    <!-- Goal Card 1 -->
-                    <div
-                        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
-                        <div class="flex">
-                            <!-- Goal Image/Avatar -->
-                            <div class="w-1/4 bg-indigo-100 h-40 relative">
-                                <img src="/api/placeholder/300/300" alt="Emergency Fund"
-                                    class="w-full h-full object-cover" />
-                                <div class="absolute top-2 left-2">
-                                    <span
-                                        class="inline-block px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-full">Savings</span>
-                                </div>
-                            </div>
-
-                            <!-- Goal Content -->
-                            <div class="w-3/4 p-6">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 class="text-lg font-bold text-gray-800">Emergency Fund</h3>
-                                        <p class="text-sm text-gray-500 mt-1">Financial safety net for unexpected
-                                            expenses</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="text-gray-400 hover:text-indigo-600 transition-colors">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="text-gray-400 hover:text-red-600 transition-colors">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <div class="flex justify-between text-sm mb-1">
-                                        <span class="font-medium">Progress</span>
-                                        <span class="text-gray-600">$3,200 of $10,000</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 32%"></div>
-                                    </div>
-                                </div>
-
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="far fa-calendar-alt mr-1"></i> Due Dec 31, 2025</span>
-                                    </div>
-                                    <div>
+                    @foreach (\App\Models\Goal::where('profile_id', session('profile_id'))->get() as $goal)
+                        <div
+                            class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
+                            <div class="flex">
+                                <!-- Goal Image/Avatar -->
+                                <div class="w-1/4 bg-indigo-100 h-40 relative">
+                                    <img src="{{ asset('storage/' . $goal->avatar) }}" alt="Goal Image"
+                                        class="w-full h-full object-cover" />
+                                    <div class="absolute top-2 left-2">
                                         <span
-                                            class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">32%
-                                            Complete</span>
+                                            class="inline-block px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-full">{{ $goal->category }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Goal Content -->
+                                <div class="w-3/4 p-6">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-800">{{ $goal->goal }}</h3>
+                                            <p class="text-sm text-gray-500 mt-1">{{ $goal->description }}</p>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <button class="text-gray-400 hover:text-indigo-600 transition-colors">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                            <button class="text-gray-400 hover:text-red-600 transition-colors">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <div class="flex justify-between text-sm mb-1">
+                                            <span class="font-medium">Progress</span>
+                                            <span class="text-gray-600">${{ $goal->current_amount }} to ${{ $goal->amount }}</span>
+                                        </div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 32%"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <span><i class="far fa-calendar-alt mr-1"></i> Due Dec 31, 2025</span>
+                                        </div>
+                                        <div>
+                                            <span
+                                                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">32%
+                                                Complete</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Goal Card 2 -->
-                    <div
-                        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
-                        <div class="flex">
-                            <!-- Goal Image/Avatar -->
-                            <div class="w-1/4 bg-purple-100 h-40 relative">
-                                <img src="/api/placeholder/300/300" alt="Stock Portfolio"
-                                    class="w-full h-full object-cover" />
-                                <div class="absolute top-2 left-2">
-                                    <span
-                                        class="inline-block px-2 py-1 text-xs font-medium bg-purple-600 text-white rounded-full">Investment</span>
-                                </div>
-                            </div>
-
-                            <!-- Goal Content -->
-                            <div class="w-3/4 p-6">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 class="text-lg font-bold text-gray-800">Stock Portfolio</h3>
-                                        <p class="text-sm text-gray-500 mt-1">Long-term investment in diversified stocks
-                                        </p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="text-gray-400 hover:text-indigo-600 transition-colors">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="text-gray-400 hover:text-red-600 transition-colors">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <div class="flex justify-between text-sm mb-1">
-                                        <span class="font-medium">Progress</span>
-                                        <span class="text-gray-600">$5,000 of $15,000</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div class="bg-purple-500 h-2.5 rounded-full" style="width: 33%"></div>
-                                    </div>
-                                </div>
-
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="far fa-calendar-alt mr-1"></i> Due Oct 15, 2025</span>
-                                    </div>
-                                    <div>
-                                        <span
-                                            class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">33%
-                                            Complete</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Goal Card 3 -->
-                    <div
-                        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
-                        <div class="flex">
-                            <!-- Goal Image/Avatar -->
-                            <div class="w-1/4 bg-blue-100 h-40 relative">
-                                <img src="/api/placeholder/300/300" alt="Dream Vacation"
-                                    class="w-full h-full object-cover" />
-                                <div class="absolute top-2 left-2">
-                                    <span
-                                        class="inline-block px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-full">Travel</span>
-                                </div>
-                            </div>
-
-                            <!-- Goal Content -->
-                            <div class="w-3/4 p-6">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 class="text-lg font-bold text-gray-800">Dream Vacation</h3>
-                                        <p class="text-sm text-gray-500 mt-1">Two-week trip to Europe</p>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="text-gray-400 hover:text-indigo-600 transition-colors">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="text-gray-400 hover:text-red-600 transition-colors">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <div class="flex justify-between text-sm mb-1">
-                                        <span class="font-medium">Progress</span>
-                                        <span class="text-gray-600">$1,500 of $4,000</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div class="bg-blue-500 h-2.5 rounded-full" style="width: 38%"></div>
-                                    </div>
-                                </div>
-
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="far fa-calendar-alt mr-1"></i> Due Jun 15, 2025</span>
-                                    </div>
-                                    <div>
-                                        <span
-                                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">38%
-                                            Complete</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

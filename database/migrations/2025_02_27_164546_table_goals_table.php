@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('goal');
             $table->string('category');
             $table->integer('amount');
+            $table->integer('current_amount');
             $table->string('avatar');
             $table->date('target_date');
             $table->string('description');

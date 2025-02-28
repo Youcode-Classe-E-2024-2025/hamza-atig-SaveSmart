@@ -58,6 +58,7 @@ class GoalController extends Controller
             'avatar' => $request->file('avatar')->store('images', 'public'),
             'target_date' => $request->target_date,
             'description' => $request->description,
+            'current_amount' => 0,
             'status' => 'active',
         ]);
 
