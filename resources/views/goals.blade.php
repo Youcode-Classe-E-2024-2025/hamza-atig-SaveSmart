@@ -172,7 +172,11 @@
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Achievement Rate</p>
                         <h3 class="text-2xl font-bold text-gray-800">
-                            {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%
+                            @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0)
+                                {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%
+                            @else
+                                0%
+                            @endif
                         </h3>
                     </div>
                 </div>
@@ -297,9 +301,9 @@
                             class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
                             <div class="flex">
                                 <!-- Goal Image/Avatar -->
-                                <div class="w-1/4 bg-indigo-100 h-40 relative">
+                                <div class="w-1/4 bg-indigo-100 h-50 relative">
                                     <img src="{{ asset('storage/' . $goal->avatar) }}" alt="Goal Image"
-                                        class="w-full h-full object-cover" />
+                                        class="absolute inset-0 w-full h-full object-cover" />
                                     <div class="absolute top-2 left-2">
                                         <span
                                             class="inline-block px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-full">{{ $goal->category }}</span>
@@ -307,8 +311,8 @@
                                 </div>
 
                                 <!-- Goal Content -->
-                                <div class="w-3/4 p-6">
-                                    <div class="flex justify-between items-start mb-4">
+                                <div class="w-3/4 pl-6 pr-6">
+                                    <div class="flex justify-between items-start mb-4 pt-4">
                                         <div>
                                             <h3 class="text-lg font-bold text-gray-800">{{ $goal->goal }}</h3>
                                             <p class="text-sm text-gray-500 mt-1">{{ $goal->description }}</p>
@@ -329,11 +333,11 @@
                                             <span class="text-gray-600">${{ $goal->current_amount }} to ${{ $goal->amount }}</span>
                                         </div>
                                         <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 32%"></div>
+                                            <div class="bg-green-500 h-2.5 rounded-full" style="{{ 'width: ' . ($goal->current_amount / $goal->amount) * 100 . '%' }}"></div>
                                         </div>
                                     </div>
 
-                                    <div class="flex justify-between items-center">
+                                    <div class="flex justify-between items-center pb-4">
                                         <div class="flex items-center text-sm text-gray-500">
                                             <span><i class="far fa-calendar-alt mr-1"></i> Due Dec 31, 2025</span>
                                         </div>

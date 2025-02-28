@@ -47,6 +47,10 @@
                     <a href="/signup" class="text-white hover:underline">Sign Up</a>
                 </p>
 
+                @error('email')
+                    <p class="text-red-500 text-sm mb-2">{{ $message }}</p>
+                @enderror
+
                 <form action="/login" method="post" class="space-y-4">
                     @csrf
                     <input type="email" name="email" placeholder="Email"

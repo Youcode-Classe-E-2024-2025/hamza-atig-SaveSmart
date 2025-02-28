@@ -107,6 +107,10 @@ class AuthController extends Controller
             session()->put('email', $user->email);
             session()->put('family_members', $user->family_members);
 
+            session()->forget('profile_id');
+            session()->forget('avatar');
+            session()->forget('full_name');
+
             return redirect()->intended('/profile');
         }
 
