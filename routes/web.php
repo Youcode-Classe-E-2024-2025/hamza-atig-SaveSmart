@@ -51,6 +51,8 @@ Route::post('/logout', [App\Http\Controllers\AuthController::class, 'destroy'])-
 
 Route::post('/createprofile', [App\Http\Controllers\ProfileController::class, 'store'])->name('createprofile');
 
+Route::post('/addgoal', [App\Http\Controllers\GoalController::class, 'store'])->name('addgoal');
+
 Route::get('/home', [App\Http\Controllers\AuthController::class, 'index'])->name('home');
 
 Route::post('/transaction', [App\Http\Controllers\HistoryController::class, 'store'])->name('transaction');

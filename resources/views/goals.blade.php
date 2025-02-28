@@ -150,7 +150,8 @@
                 <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                     <h2 class="text-xl font-bold mb-6 text-gray-800">Add a New Goal</h2>
 
-                    <form id="goal-form" class="space-y-5">
+                    <form action="/addgoal" method="post" id="goal-form" class="space-y-5">
+                        @csrf
                         <!-- Goal Image Upload -->
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Goal Image</label>
@@ -166,23 +167,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input id="goal-image-upload" type="file" accept="image/*" class="hidden" />
+                                    <input id="goal-image-upload" name="avatar" type="file" accept="image/*" class="hidden" />
                                 </label>
                             </div>
                         </div>
 
                         <div>
-                            <label for="goal-name" class="block text-sm font-medium text-gray-700 mb-1">Goal
+                            <label for="goal" class="block text-sm font-medium text-gray-700 mb-1">Goal
                                 Name</label>
-                            <input type="text" id="goal-name" name="goal-name"
+                            <input type="text" id="goal" name="goal"
                                 placeholder="What do you want to achieve?"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
                         </div>
 
                         <div>
-                            <label for="goal-category"
+                            <label for="category"
                                 class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                            <select id="goal-category" name="goal-category"
+                            <select id="category" name="category"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
                                 <option value="savings">Savings</option>
                                 <option value="investment">Investment</option>
@@ -195,29 +196,29 @@
                         </div>
 
                         <div>
-                            <label for="target-amount" class="block text-sm font-medium text-gray-700 mb-1">Target
+                            <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Target
                                 Amount ($)</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <span class="text-gray-500">$</span>
                                 </div>
-                                <input type="number" id="target-amount" name="target-amount" placeholder="0.00" min="0"
+                                <input type="number" id="amount" name="amount" placeholder="0.00" min="0"
                                     step="0.01"
                                     class="w-full pl-8 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
                             </div>
                         </div>
 
                         <div>
-                            <label for="target-date" class="block text-sm font-medium text-gray-700 mb-1">Target
+                            <label for="target_date" class="block text-sm font-medium text-gray-700 mb-1">Target
                                 Date</label>
-                            <input type="date" id="target-date" name="target-date"
+                            <input type="date" id="target-date" name="target_date"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
                         </div>
 
                         <div>
-                            <label for="goal-description"
+                            <label for="description"
                                 class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
-                            <textarea id="goal-description" name="goal-description" rows="3"
+                            <textarea id="description" name="description" rows="3"
                                 placeholder="Why is this goal important to you?"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"></textarea>
                         </div>
