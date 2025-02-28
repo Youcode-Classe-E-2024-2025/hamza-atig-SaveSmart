@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\goal;
 use App\Models\profile;
 use Illuminate\Http\Request;
+use Validator;
 
 class GoalController extends Controller
 {
@@ -33,11 +34,20 @@ class GoalController extends Controller
             'goal' => 'required',
             'category' => 'required',
             'amount' => 'required',
-            'avatar' => 'required',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg,bmp|max:2048',
             'target_date' => 'required',
             'description' => 'nullable',
         ]);
 
+        if ($validator = Validator::make($request->all(), [
+            'goal' => 'required',
+            'category' => 'required',
+            'amount' => 'required',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg,bmp|max:2048',
+            'target_date' => 'required',
+        ])->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
 
         goal::create([
             'user_id' => auth()->id(),
@@ -45,12 +55,13 @@ class GoalController extends Controller
             'goal' => $request->goal,
             'category' => $request->category,
             'amount' => $request->amount,
-            'avatar' => $request->avatar,
+            'avatar' => $request->file('avatar')->store('images', 'public'),
             'target_date' => $request->target_date,
             'description' => $request->description
         ]);
+        
+        return back()->with('success', 'Goal created successfully');
 
-        return redirect()->route('goals');
     }
 
     /**

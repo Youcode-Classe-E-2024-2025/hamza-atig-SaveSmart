@@ -38,6 +38,36 @@
 </head>
 
 <body class="bg-gray-100 h-screen">
+    <div id="sweetAlert"
+        class="fixed top-0 left-0 w-full flex justify-center z-50 transform -translate-y-full transition-transform duration-500">
+        @if (session('success'))
+            <div class="bg-green-500 shadow-lg rounded-lg m-4 max-w-md w-full overflow-hidden">
+                <div class="flex items-center p-4">
+                    <div class="flex-shrink-0 mr-4">
+                        <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-white font-medium">Success</h3>
+                        <p class="text-white opacity-90 text-sm">{{ session('success') }}</p>
+                    </div>
+                    <button onclick="closeAlert()" class="text-white hover:text-gray-200 focus:outline-none">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="bg-white bg-opacity-30 h-1">
+                    <div id="progressBar" class="bg-white h-1 w-full"></div>
+                </div>
+            </div>
+        @endif
+    </div>
     <!-- Sidebar -->
     <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white p-4 z-10 sidebar">
         <div class="flex items-center space-x-3 mb-8">
@@ -150,8 +180,12 @@
                 <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                     <h2 class="text-xl font-bold mb-6 text-gray-800">Add a New Goal</h2>
 
-                    <form action="/addgoal" method="post" id="goal-form" class="space-y-5">
+                    <form action="/addgoal" method="post" id="goal-form" enctype="multipart/form-data"
+                        class="space-y-5">
                         @csrf
+                        @error('avatar')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                         <!-- Goal Image Upload -->
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Goal Image</label>
@@ -167,7 +201,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input id="goal-image-upload" name="avatar" type="file" accept="image/*" class="hidden" />
+                                    <input id="goal-image-upload" name="avatar" type="file" accept="image/*"
+                                        class="hidden" />
                                 </label>
                             </div>
                         </div>
@@ -175,14 +210,12 @@
                         <div>
                             <label for="goal" class="block text-sm font-medium text-gray-700 mb-1">Goal
                                 Name</label>
-                            <input type="text" id="goal" name="goal"
-                                placeholder="What do you want to achieve?"
+                            <input type="text" id="goal" name="goal" placeholder="What do you want to achieve?"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
                         </div>
 
                         <div>
-                            <label for="category"
-                                class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                             <select id="category" name="category"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
                                 <option value="savings">Savings</option>
@@ -202,8 +235,7 @@
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <span class="text-gray-500">$</span>
                                 </div>
-                                <input type="number" id="amount" name="amount" placeholder="0.00" min="0"
-                                    step="0.01"
+                                <input type="number" id="amount" name="amount" placeholder="0.00" min="0" step="0.01"
                                     class="w-full pl-8 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
                             </div>
                         </div>
@@ -216,8 +248,8 @@
                         </div>
 
                         <div>
-                            <label for="description"
-                                class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description
+                                (Optional)</label>
                             <textarea id="description" name="description" rows="3"
                                 placeholder="Why is this goal important to you?"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"></textarea>
@@ -481,6 +513,51 @@
                 }
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const alert = document.getElementById('sweetAlert');
+            const progressBar = document.getElementById('progressBar');
+            let timeoutId;
+
+            if (alert && alert.querySelector('.bg-green-500')) {
+                setTimeout(() => {
+                    alert.classList.remove('-translate-y-full');
+                    alert.classList.add('translate-y-0');
+
+                    let width = 100;
+                    const duration = 5000;
+                    const interval = 50;
+                    const step = (interval / duration) * 100;
+
+                    const timer = setInterval(() => {
+                        width -= step;
+                        if (width <= 0) {
+                            clearInterval(timer);
+                            width = 0;
+                        }
+                        if (progressBar) {
+                            progressBar.style.width = width + '%';
+                        }
+                    }, interval);
+
+                    timeoutId = setTimeout(() => {
+                        closeAlert();
+                    }, 5000);
+                }, 100);
+            }
+        });
+
+        function closeAlert() {
+            const alert = document.getElementById('sweetAlert');
+            alert.classList.remove('translate-y-0');
+            alert.classList.add('-translate-y-full');
+
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.parentNode.removeChild(alert);
+                }
+            }, 500);
+        }
     </script>
 </body>
 
