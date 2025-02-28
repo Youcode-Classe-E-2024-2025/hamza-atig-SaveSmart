@@ -339,12 +339,11 @@
 
                                     <div class="flex justify-between items-center pb-4">
                                         <div class="flex items-center text-sm text-gray-500">
-                                            <span><i class="far fa-calendar-alt mr-1"></i> Due Dec 31, 2025</span>
+                                            <span><i class="far fa-calendar-alt mr-1"></i>Target Date: {{ $goal->target_date }}</span>
                                         </div>
                                         <div>
                                             <span
-                                                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">32%
-                                                Complete</span>
+                                                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">{{ number_format(($goal->current_amount / $goal->amount) * 100, 2) }}% completed</span>
                                         </div>
                                     </div>
                                 </div>
