@@ -228,12 +228,12 @@
 
                 <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-gray-500">Savings Goal</span>
+                        <span class="text-gray-500">Totale Goals Amount</span>
                         <i class="fas fa-bullseye text-green-500 text-xl"></i>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">$5,000.00</h2>
+                    <h2 class="text-3xl font-bold text-gray-800">${{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->sum('amount') }}</h2>
                     <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
-                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 1%"></div>
+                        <div class="bg-green-500 h-2.5 rounded-full" style="width: @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}% @else 0% @endif"></div>
                     </div>
                     <p class="text-sm text-gray-500 mt-2">0% completed</p>
                 </div>
@@ -312,6 +312,7 @@
                                             "Gifts": "fas fa-gift",
                                             "Miscellaneous": "fas fa-question-circle",
                                             "Not Exist": "fa-solid fa-cubes",
+                                            "Bet": "fas fa-coins"
                                         };
                                         var category = "{{ $transaction->category }}";
                                         document.write(`<i class="${categories[category]} {{ $transaction->category == 'Not Exist' && $transaction->type == 'income' ? 'text-green-600' : 'text-red-600' }}"></i>`);

@@ -40,8 +40,9 @@
 <body class="bg-gray-100 h-screen">
     <div id="sweetAlert"
         class="fixed top-0 left-0 w-full flex justify-center z-50 transform -translate-y-full transition-transform duration-500">
-        @if (session('success'))
-            <div class="bg-{{ session('success') == 'Goal deleted successfully' ? 'red-500' : 'green-500' }} shadow-lg rounded-lg m-4 max-w-md w-full overflow-hidden">
+        @if (session('success') || session('error'))
+            <div
+                class="bg-{{ session('success') == 'Goal deleted successfully' || session('error') ? 'red-500' : 'green-500' }} shadow-lg rounded-lg m-4 max-w-md w-full overflow-hidden">
                 <div class="flex items-center p-4">
                     <div class="flex-shrink-0 mr-4">
                         <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -51,8 +52,8 @@
                         </svg>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-white font-medium">Success</h3>
-                        <p class="text-white opacity-90 text-sm">{{ session('success') }}</p>
+                        <h3 class="text-white font-medium">{{ session('success') ? 'Success' : 'Error' }}</h3>
+                        <p class="text-white opacity-90 text-sm">{{ session('success') ?? session('error') }}</p>
                     </div>
                     <button onclick="closeAlert()" class="text-white hover:text-gray-200 focus:outline-none">
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -132,7 +133,8 @@
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Active Goals</p>
                         <h3 class="text-2xl font-bold text-gray-800">
-                            {{ \App\Models\Goal::where('status', 'active')->count() }}</h3>
+                            {{ \App\Models\Goal::where('status', 'active')->count() }}
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -159,7 +161,8 @@
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Completed Goals</p>
                         <h3 class="text-2xl font-bold text-gray-800">
-                            {{ \App\Models\Goal::where('status', 'completed')->count() }}</h3>
+                            {{ \App\Models\Goal::where('status', 'completed')->count() }}
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -321,7 +324,8 @@
                                             <button class="text-gray-400 hover:text-indigo-600 transition-colors">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </button>
-                                            <a href="/deletegoal/{{ $goal->id }}" class="text-gray-400 hover:text-red-600 transition-colors">
+                                            <a href="/deletegoal/{{ $goal->id }}"
+                                                class="text-gray-400 hover:text-red-600 transition-colors">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </div>
@@ -330,20 +334,39 @@
                                     <div class="mb-4">
                                         <div class="flex justify-between text-sm mb-1">
                                             <span class="font-medium">Progress</span>
-                                            <span class="text-gray-600">${{ $goal->current_amount }} to ${{ $goal->amount }}</span>
+                                            <span class="text-gray-600">${{ $goal->current_amount }} to
+                                                ${{ $goal->amount }}</span>
                                         </div>
                                         <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                            <div class="bg-green-500 h-2.5 rounded-full" style="{{ 'width: ' . ($goal->current_amount / $goal->amount) * 100 . '%' }}"></div>
+                                            <div class="bg-green-500 h-2.5 rounded-full"
+                                                style="{{ 'width: ' . ($goal->current_amount / $goal->amount) * 100 . '%' }}">
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center mt-4">
+                                            @if ($goal->status != 'completed')
+                                                <a href="/bet/{{ $goal->id }}"
+                                                    class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center">
+                                                    <i class="fas fa-coins mr-2"></i>
+                                                    Bet {{ intval($goal->amount / 10) }}$
+                                                </a>
+                                            @else
+                                                <span class="bg-green-500 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center">
+                                                    <i class="fas fa-check mr-2"></i>
+                                                    Completed
+                                                </span>
+                                            @endif
                                         </div>
                                     </div>
 
                                     <div class="flex justify-between items-center pb-4">
                                         <div class="flex items-center text-sm text-gray-500">
-                                            <span><i class="far fa-calendar-alt mr-1"></i>Target Date: {{ $goal->target_date }}</span>
+                                            <span><i class="far fa-calendar-alt mr-1"></i>Target Date:
+                                                {{ $goal->target_date }}</span>
                                         </div>
                                         <div>
                                             <span
-                                                class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">{{ number_format(($goal->current_amount / $goal->amount) * 100, 2) }}% completed</span>
+                                                class="px-3 py-1 bg-{{ ($goal->current_amount >= $goal->amount) ? 'red-100' : 'green-100'}} text-green-800 rounded-full text-xs font-medium">{{ number_format(min(($goal->current_amount / $goal->amount) * 100, 100), 2) }}%
+                                                completed</span>
                                         </div>
                                     </div>
                                 </div>

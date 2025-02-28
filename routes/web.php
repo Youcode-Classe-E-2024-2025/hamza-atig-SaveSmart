@@ -57,6 +57,8 @@ Route::get('/home', [App\Http\Controllers\AuthController::class, 'index'])->name
 
 Route::get('/deletegoal/{goal}', [App\Http\Controllers\GoalController::class, 'destroy'])->name('deletegoal')->middleware('auth', 'VerifyLoggedProfile');
 
+Route::get('/bet/{goal}', [App\Http\Controllers\GoalController::class, 'bet'])->name('bet')->middleware('auth', 'VerifyLoggedProfile');
+
 Route::post('/transaction', [App\Http\Controllers\HistoryController::class, 'store'])->name('transaction');
 
 Route::post('/updateIncome', [App\Http\Controllers\BalenceController::class, 'update'])->name('updateIncome');

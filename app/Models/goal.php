@@ -19,5 +19,6 @@ class goal extends Model
         'description',
         'user_id',
         'profile_id',
+        'status',
     ];
 }
