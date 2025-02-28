@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaveSmart Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 h-screen">
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white p-4 z-10 sidebar">
+        <div class="flex items-center space-x-3 mb-8">
+            <i class="fas fa-piggy-bank text-3xl"></i>
+            <span class="text-2xl font-bold">SaveSmart</span>
+        </div>
+        <nav class="space-y-2">
+            <a href="/dash"
+                class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/goals" class="flex items-center space-x-3 bg-blue-700 p-3 rounded-lg transition duration-200">
+                <i class="fas fa-bullseye"></i>
+                <span>Goals</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+        </nav>
+        <div class="absolute bottom-0 pb-4">
+            <div class="flex items-center space-x-3 bg-blue-700 p-3 rounded-lg transition duration-200">
+                <img src="{{ asset('storage/' . session('avatar')) }}" class="w-8 h-8 rounded-full">
+                <div>
+                    <div class="text-sm font-medium">{{ session('full_name') }}</div>
+                    <div class="text-xs text-gray-400 truncate">{{ auth()->user()->email }}</div>
+                </div>
+                <a href="/logout-profile" class="ml-auto text-red-500 hover:text-red-600">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="ml-64 flex-1 p-8">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">My Goals</h1>
+            <div class="flex space-x-3">
+                <div class="relative">
+                    <input type="text" placeholder="Search goals..."
+                        class="bg-white pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all" />
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <button id="view-toggle"
+                    class="bg-indigo-100 text-indigo-600 px-4 py-2 rounded-lg font-medium hover:bg-indigo-200 transition-colors">
+                    <i class="fas fa-th-large mr-2"></i>
+                    Change View
+                </button>
+            </div>
+        </header>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-flag-checkered text-blue-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Active Goals</p>
+                        <h3 class="text-2xl font-bold text-gray-800">4</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-dollar-sign text-green-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Total Goal Amount</p>
+                        <h3 class="text-2xl font-bold text-gray-800">$25,500</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-trophy text-amber-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Completed Goals</p>
+                        <h3 class="text-2xl font-bold text-gray-800">7</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-calendar-check text-purple-600"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Achievement Rate</p>
+                        <h3 class="text-2xl font-bold text-gray-800">64%</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Columns Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Add Goal Form -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <h2 class="text-xl font-bold mb-6 text-gray-800">Add a New Goal</h2>
+
+                    <form id="goal-form" class="space-y-5">
+                        <!-- Goal Image Upload -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Goal Image</label>
+                            <div class="flex items-center justify-center">
+                                <label for="goal-image-upload" class="cursor-pointer">
+                                    <div
+                                        class="w-full h-40 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors">
+                                        <div id="image-preview" class="w-full h-full flex items-center justify-center">
+                                            <div class="text-center p-4">
+                                                <i class="fas fa-image text-3xl mb-2"></i>
+                                                <p class="text-sm">Upload goal image</p>
+                                                <p class="text-xs mt-1">Click to browse or drag & drop</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input id="goal-image-upload" type="file" accept="image/*" class="hidden" />
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="goal-name" class="block text-sm font-medium text-gray-700 mb-1">Goal
+                                Name</label>
+                            <input type="text" id="goal-name" name="goal-name"
+                                placeholder="What do you want to achieve?"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                        </div>
+
+                        <div>
+                            <label for="goal-category"
+                                class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <select id="goal-category" name="goal-category"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                                <option value="savings">Savings</option>
+                                <option value="investment">Investment</option>
+                                <option value="debt">Debt Repayment</option>
+                                <option value="education">Education</option>
+                                <option value="travel">Travel</option>
+                                <option value="health">Health & Fitness</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="target-amount" class="block text-sm font-medium text-gray-700 mb-1">Target
+                                Amount ($)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500">$</span>
+                                </div>
+                                <input type="number" id="target-amount" name="target-amount" placeholder="0.00" min="0"
+                                    step="0.01"
+                                    class="w-full pl-8 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="target-date" class="block text-sm font-medium text-gray-700 mb-1">Target
+                                Date</label>
+                            <input type="date" id="target-date" name="target-date"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all">
+                        </div>
+
+                        <div>
+                            <label for="goal-description"
+                                class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                            <textarea id="goal-description" name="goal-description" rows="3"
+                                placeholder="Why is this goal important to you?"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add Goal
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Goal Progress Section -->
+            <div class="lg:col-span-2">
+                <!-- Progress Chart -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mb-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Goal Progress</h2>
+                        <div>
+                            <select class="bg-gray-100 text-gray-800 px-3 py-2 rounded-lg border-0 text-sm font-medium">
+                                <option>This Month</option>
+                                <option>Last 3 Months</option>
+                                <option>This Year</option>
+                                <option>All Time</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Goals List -->
+                <div class="space-y-5">
+                    <!-- Goal Card 1 -->
+                    <div
+                        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
+                        <div class="flex">
+                            <!-- Goal Image/Avatar -->
+                            <div class="w-1/4 bg-indigo-100 h-40 relative">
+                                <img src="/api/placeholder/300/300" alt="Emergency Fund"
+                                    class="w-full h-full object-cover" />
+                                <div class="absolute top-2 left-2">
+                                    <span
+                                        class="inline-block px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-full">Savings</span>
+                                </div>
+                            </div>
+
+                            <!-- Goal Content -->
+                            <div class="w-3/4 p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-gray-800">Emergency Fund</h3>
+                                        <p class="text-sm text-gray-500 mt-1">Financial safety net for unexpected
+                                            expenses</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="text-gray-400 hover:text-indigo-600 transition-colors">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-600 transition-colors">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-medium">Progress</span>
+                                        <span class="text-gray-600">$3,200 of $10,000</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-green-500 h-2.5 rounded-full" style="width: 32%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="far fa-calendar-alt mr-1"></i> Due Dec 31, 2025</span>
+                                    </div>
+                                    <div>
+                                        <span
+                                            class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">32%
+                                            Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Goal Card 2 -->
+                    <div
+                        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
+                        <div class="flex">
+                            <!-- Goal Image/Avatar -->
+                            <div class="w-1/4 bg-purple-100 h-40 relative">
+                                <img src="/api/placeholder/300/300" alt="Stock Portfolio"
+                                    class="w-full h-full object-cover" />
+                                <div class="absolute top-2 left-2">
+                                    <span
+                                        class="inline-block px-2 py-1 text-xs font-medium bg-purple-600 text-white rounded-full">Investment</span>
+                                </div>
+                            </div>
+
+                            <!-- Goal Content -->
+                            <div class="w-3/4 p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-gray-800">Stock Portfolio</h3>
+                                        <p class="text-sm text-gray-500 mt-1">Long-term investment in diversified stocks
+                                        </p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="text-gray-400 hover:text-indigo-600 transition-colors">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-600 transition-colors">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-medium">Progress</span>
+                                        <span class="text-gray-600">$5,000 of $15,000</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-purple-500 h-2.5 rounded-full" style="width: 33%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="far fa-calendar-alt mr-1"></i> Due Oct 15, 2025</span>
+                                    </div>
+                                    <div>
+                                        <span
+                                            class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">33%
+                                            Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Goal Card 3 -->
+                    <div
+                        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
+                        <div class="flex">
+                            <!-- Goal Image/Avatar -->
+                            <div class="w-1/4 bg-blue-100 h-40 relative">
+                                <img src="/api/placeholder/300/300" alt="Dream Vacation"
+                                    class="w-full h-full object-cover" />
+                                <div class="absolute top-2 left-2">
+                                    <span
+                                        class="inline-block px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-full">Travel</span>
+                                </div>
+                            </div>
+
+                            <!-- Goal Content -->
+                            <div class="w-3/4 p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-gray-800">Dream Vacation</h3>
+                                        <p class="text-sm text-gray-500 mt-1">Two-week trip to Europe</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="text-gray-400 hover:text-indigo-600 transition-colors">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-600 transition-colors">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span class="font-medium">Progress</span>
+                                        <span class="text-gray-600">$1,500 of $4,000</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="bg-blue-500 h-2.5 rounded-full" style="width: 38%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="far fa-calendar-alt mr-1"></i> Due Jun 15, 2025</span>
+                                    </div>
+                                    <div>
+                                        <span
+                                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">38%
+                                            Complete</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    </div>
+
+    <script>
+        // Initialize Progress Chart
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+
+            const progressChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Emergency Fund', 'Stock Portfolio', 'New Car', 'Dream Vacation'],
+                    datasets: [
+                        {
+                            label: 'Current Amount',
+                            data: [3200, 5000, 8000, 1500],
+                            backgroundColor: [
+                                '#10b981', // green
+                                '#8b5cf6', // purple
+                                '#3b82f6', // blue
+                                '#f59e0b'  // amber
+                            ],
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'Target Amount',
+                            data: [10000, 15000, 25000, 4000],
+                            backgroundColor: '#e5e7eb',
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

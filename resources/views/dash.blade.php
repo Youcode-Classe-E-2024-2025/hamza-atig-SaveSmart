@@ -46,11 +46,11 @@
             </div>
 
             <nav class="space-y-2">
-                <a href="#" class="flex items-center space-x-3 bg-blue-700 p-3 rounded-lg transition duration-200">
+                <a href="/dash" class="flex items-center space-x-3 bg-blue-700 p-3 rounded-lg transition duration-200">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
+                <a href="/goals" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
                     <i class="fas fa-bullseye"></i>
                     <span>Goals</span>
                 </a>

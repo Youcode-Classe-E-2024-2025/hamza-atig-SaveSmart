@@ -33,6 +33,10 @@ Route::get('/dash', function () {
     return view('dash');
 })->name('dash')->middleware('VerifyLoggedProfile');
 
+Route::get('/goals', function () {
+    return view('goals');
+})->name('goals')->middleware('VerifyLoggedProfile', 'auth');
+
 Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->name('signup');
 
 Route::get('/logout-profile', [App\Http\Controllers\ProfileController::class, 'destroy']);
