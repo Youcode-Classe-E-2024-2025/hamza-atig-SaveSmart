@@ -208,71 +208,100 @@
             </div>
 
             <!-- Balance Section -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+                <!-- Current Balance Card -->
+                <div
+                    class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border-l-4 border-blue-500">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-gray-500">Current Balance</span>
-                        <i class="fas fa-wallet text-blue-500 text-xl"></i>
+                        <span class="text-gray-600 font-medium">Current Balance</span>
+                        <div class="bg-blue-100 p-2 rounded-full">
+                            <i class="fas fa-wallet text-blue-500 text-xl"></i>
+                        </div>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-3">
                         ${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('balance') }}
                     </h2>
-                    <div class="flex justify-between mt-4">
+                    <div class="flex justify-between mt-4 pt-3 border-t border-gray-100">
                         <div>
-                            <p class="text-green-500 text-sm">0% this month</p>
+                            <p class="text-green-500 font-medium">0% this month</p>
                         </div>
                         <div>
-                            <button class="text-blue-500 hover:text-blue-600 text-sm">View Details</button>
+                            <button class="text-blue-500 hover:text-blue-700 font-medium flex items-center">
+                                View Details
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
+                <!-- Total Goals Amount Card -->
+                <div
+                    class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border-l-4 border-green-500">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-gray-500">Totale Goals Amount</span>
-                        <i class="fas fa-bullseye text-green-500 text-xl"></i>
+                        <span class="text-gray-600 font-medium">Total Goals Amount</span>
+                        <div class="bg-green-100 p-2 rounded-full">
+                            <i class="fas fa-bullseye text-green-500 text-xl"></i>
+                        </div>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-3">
                         ${{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->sum('amount') }}
                     </h2>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
-                        <div class="bg-green-500 h-2.5 rounded-full"
+                    <div class="w-full bg-gray-200 rounded-full h-3 mt-4">
+                        <div class="bg-green-500 h-3 rounded-full"
                             style="width: @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}% @else 0% @endif">
                         </div>
                     </div>
-                    <p class="text-sm text-gray-500 mt-2">
+                    <p class="text-sm text-gray-600 font-medium mt-2">
                         {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%
-                        completed</p>
+                        completed
+                    </p>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
+                <!-- Monthly Income Card -->
+                <div
+                    class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border-l-4 border-purple-500">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-gray-500">Montly Income
-                            <button id="editButton" class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <span class="text-gray-600 font-medium">
+                            Monthly Income
+                            <button id="editButton"
+                                class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none bg-gray-100 p-1 rounded">
                                 <i class="fas fa-pencil-alt text-sm"></i>
                             </button>
                             <button type="submit" id="saveButton"
-                                class="hidden ml-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                                class="hidden ml-2 text-gray-500 hover:text-gray-700 focus:outline-none bg-gray-100 p-1 rounded">
                                 <i class="fas fa-save text-sm"></i>
                             </button>
                         </span>
-                        <i class="fas fa-dollar-sign text-purple-500 text-xl"></i>
+                        <div class="bg-purple-100 p-2 rounded-full">
+                            <i class="fas fa-dollar-sign text-purple-500 text-xl"></i>
+                        </div>
                     </div>
-                    <h2 id="monthlyIncome" class="text-3xl font-bold text-gray-800">
+                    <h2 id="monthlyIncome" class="text-4xl font-bold text-gray-800 mb-3">
                         ${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('Montly_income') }}</h2>
-                    <form action="/updateIncome" method="POST" class="hidden flex flex-row text-3xl font-bold text-gray-800"
-                        id="inputField">
+                    <form action="/updateIncome" method="POST"
+                        class="hidden flex flex-row text-3xl font-bold text-gray-800 mb-3" id="inputField">
                         @csrf
                         <h2 class="mr-2">$</h2>
                         <input type="Montly_income" name="Montly_income" id="inputField"
-                            class="w-full text-gray-800 font-bold border" placeholder="1">
+                            class="w-full text-gray-800 font-bold border rounded p-1" placeholder="1">
                     </form>
-                    <div class="flex justify-between mt-4">
+                    <div class="flex justify-between mt-4 pt-3 border-t border-gray-100">
                         <div>
-                            <p class="text-sm text-gray-500">This month</p>
+                            <p class="text-sm text-gray-600 font-medium">This month</p>
                         </div>
                         <div>
-                            <p class="text-purple-500 text-sm">+8.5%</p>
+                            <p class="text-purple-500 font-medium flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                </svg>
+                                +8.5%
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -289,11 +318,35 @@
                 </div>
 
                 <!-- Savings Trend Chart -->
-                <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
-                    <h3 class="text-xl font-semibold mb-4">Savings Trend</h3>
-                    <div class="chart-container">
+                <div
+                    class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all duration-300 border border-gray-50">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                            <i class="fas fa-chart-line text-blue-500"></i>
+                            Savings Trend
+                        </h3>
+                        <div class="flex items-center">
+                            <select id="savingsPeriod"
+                                class="text-sm border-gray-200 rounded-lg pr-8 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="6months">Last 6 Months</option>
+                                <option value="year">Last 12 Months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="chart-container" style="position: relative; height: 300px;">
                         <canvas id="savingsChart"></canvas>
                     </div>
+                    <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+                        <div class="bg-blue-50 p-3 rounded-lg">
+                            <p class="text-gray-600">Current Savings</p>
+                            <p class="text-2xl font-bold text-blue-600" id="currentSavings">$0</p>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded-lg">
+                            <p class="text-gray-600">Growth Rate</p>
+                            <p class="text-2xl font-bold text-green-600" id="savingsGrowth">0%</p>
+                        </div>
+                    </div>
+                    </di>
                 </div>
             </div>
 
@@ -351,7 +404,8 @@
                                             </div>
                                             <div>
                                                 <p class="font-medium text-gray-800">
-                                                    {{ $transaction->category == 'Not Exist' ? 'Other' : $transaction->category }}</p>
+                                                    {{ $transaction->category == 'Not Exist' ? 'Other' : $transaction->category }}
+                                                </p>
                                                 <div class="flex items-center text-xs text-gray-500 mt-1 gap-1">
                                                     <i class="far fa-calendar-alt"></i>
                                                     <span>{{ \Carbon\Carbon::parse($transaction->date)->format('M d, Y') }}</span>
