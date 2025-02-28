@@ -131,7 +131,7 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Active Goals</p>
-                        <h3 class="text-2xl font-bold text-gray-800">4</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Goal::where('status', 'active')->count() }}</h3>
                     </div>
                 </div>
             </div>
@@ -143,7 +143,7 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Total Goal Amount</p>
-                        <h3 class="text-2xl font-bold text-gray-800">$25,500</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">${{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->sum('amount') }} </h3>
                     </div>
                 </div>
             </div>
@@ -155,7 +155,7 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Completed Goals</p>
-                        <h3 class="text-2xl font-bold text-gray-800">7</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ \App\Models\Goal::where('status', 'completed')->count() }}</h3>
                     </div>
                 </div>
             </div>
@@ -167,7 +167,7 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Achievement Rate</p>
-                        <h3 class="text-2xl font-bold text-gray-800">64%</h3>
+                        <h3 class="text-2xl font-bold text-gray-800">{{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%</h3>
                     </div>
                 </div>
             </div>
