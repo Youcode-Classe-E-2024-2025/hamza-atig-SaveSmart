@@ -50,7 +50,8 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="/goals" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
+                <a href="/goals"
+                    class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
                     <i class="fas fa-bullseye"></i>
                     <span>Goals</span>
                 </a>
@@ -231,20 +232,27 @@
                         <span class="text-gray-500">Totale Goals Amount</span>
                         <i class="fas fa-bullseye text-green-500 text-xl"></i>
                     </div>
-                    <h2 class="text-3xl font-bold text-gray-800">${{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->sum('amount') }}</h2>
+                    <h2 class="text-3xl font-bold text-gray-800">
+                        ${{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->sum('amount') }}
+                    </h2>
                     <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
-                        <div class="bg-green-500 h-2.5 rounded-full" style="width: @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}% @else 0% @endif"></div>
+                        <div class="bg-green-500 h-2.5 rounded-full"
+                            style="width: @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}% @else 0% @endif">
+                        </div>
                     </div>
-                    <p class="text-sm text-gray-500 mt-2">0% completed</p>
+                    <p class="text-sm text-gray-500 mt-2">
+                        {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%
+                        completed</p>
                 </div>
 
                 <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-gray-500">Montly Income 
+                        <span class="text-gray-500">Montly Income
                             <button id="editButton" class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none">
                                 <i class="fas fa-pencil-alt text-sm"></i>
                             </button>
-                            <button type="submit" id="saveButton" class="hidden ml-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <button type="submit" id="saveButton"
+                                class="hidden ml-2 text-gray-500 hover:text-gray-700 focus:outline-none">
                                 <i class="fas fa-save text-sm"></i>
                             </button>
                         </span>
@@ -252,10 +260,12 @@
                     </div>
                     <h2 id="monthlyIncome" class="text-3xl font-bold text-gray-800">
                         ${{ \App\Models\Balence::where('user_id', auth()->user()->id)->value('Montly_income') }}</h2>
-                    <form action="/updateIncome" method="POST" class="hidden flex flex-row text-3xl font-bold text-gray-800" id="inputField">
+                    <form action="/updateIncome" method="POST" class="hidden flex flex-row text-3xl font-bold text-gray-800"
+                        id="inputField">
                         @csrf
                         <h2 class="mr-2">$</h2>
-                        <input type="Montly_income" name="Montly_income" id="inputField" class="w-full text-gray-800 font-bold border" placeholder="1">
+                        <input type="Montly_income" name="Montly_income" id="inputField"
+                            class="w-full text-gray-800 font-bold border" placeholder="1">
                     </form>
                     <div class="flex justify-between mt-4">
                         <div>
@@ -288,45 +298,95 @@
             </div>
 
             <!-- Recent Transactions -->
-            <div class="bg-white rounded-lg shadow-lg p-6 animate-slide-in">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold">Recent Transactions</h3>
-                    <button class="text-blue-500 hover:text-blue-600 text-sm">View All</button>
+            <div
+                class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-50 hover:shadow-lg transition-all duration-300">
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-history text-indigo-500"></i>
+                        Recent Transactions
+                    </h3>
+                    <a href="#"
+                        class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center transition-colors">
+                        View All
+                        <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                    </a>
                 </div>
-                <div class="space-y-4">
-                    @foreach (\App\Models\History::where('profile_id', session('profile_id'))->get() as $transaction)
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <div class="{{ $transaction->type == 'income' ? 'bg-green-100' : 'bg-red-100' }} p-2 rounded-full">
-                                    <script>
-                                        var categories = {
-                                            "Food": "fas fa-utensils",
-                                            "Transportation": "fas fa-bus",
-                                            'Travel': "fas fa-plane",
-                                            "Entertainment": "fas fa-gamepad",
-                                            "Housing": "fas fa-home",
-                                            "Insurance": "fas fa-shield-alt",
-                                            "Healthcare": "fas fa-medkit",
-                                            "Debt": "fas fa-credit-card",
-                                            "Savings": "fas fa-piggy-bank",
-                                            "Gifts": "fas fa-gift",
-                                            "Miscellaneous": "fas fa-question-circle",
-                                            "Not Exist": "fa-solid fa-cubes",
-                                            "Bet": "fas fa-coins"
-                                        };
-                                        var category = "{{ $transaction->category }}";
-                                        document.write(`<i class="${categories[category]} {{ $transaction->category == 'Not Exist' && $transaction->type == 'income' ? 'text-green-600' : 'text-red-600' }}"></i>`);
-                                    </script>
+
+                <div class="divide-y divide-gray-50">
+                    @php
+                        $transactions = \App\Models\History::where('profile_id', session('profile_id'))
+                            ->orderByDesc('created_at')
+                            ->paginate(5);
+                    @endphp
+
+                    @forelse ($transactions as $transaction)
+                                <div class="p-4 hover:bg-gray-50 transition-colors duration-150">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-3">
+                                            <div
+                                                class="{{ $transaction->type == 'income' ? 'bg-green-100' : 'bg-red-50' }} p-3 rounded-full">
+                                                @php
+                                                    $categories = [
+                                                        "Food" => "fas fa-utensils",
+                                                        "Transportation" => "fas fa-bus",
+                                                        "Travel" => "fas fa-plane",
+                                                        "Entertainment" => "fas fa-gamepad",
+                                                        "Housing" => "fas fa-home",
+                                                        "Insurance" => "fas fa-shield-alt",
+                                                        "Healthcare" => "fas fa-medkit",
+                                                        "Debt" => "fas fa-credit-card",
+                                                        "Savings" => "fas fa-piggy-bank",
+                                                        "Gifts" => "fas fa-gift",
+                                                        "Miscellaneous" => "fas fa-question-circle",
+                                                        "Not Exist" => "fas fa-cubes",
+                                                        "Goal Contribution" => "fas fa-coins"
+                                                    ];
+                                                    $icon = $categories[$transaction->category] ?? "fas fa-question-circle";
+                                                    $iconColor = $transaction->type == 'income' ? 'text-green-600' : 'text-red-600';
+                                                    if ($transaction->category == 'Not Exist' && $transaction->type == 'income') {
+                                                        $iconColor = 'text-green-600';
+                                                    }
+                                                @endphp
+                                                <i class="{{ $icon }} {{ $iconColor }}"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium text-gray-800">
+                                                    {{ $transaction->category == 'Not Exist' ? 'Other' : $transaction->category }}</p>
+                                                <div class="flex items-center text-xs text-gray-500 mt-1 gap-1">
+                                                    <i class="far fa-calendar-alt"></i>
+                                                    <span>{{ \Carbon\Carbon::parse($transaction->date)->format('M d, Y') }}</span>
+
+                                                    @if($transaction->note)
+                                                        <span class="mx-1">•</span>
+                                                        <span class="truncate max-w-xs">{{ $transaction->note }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col items-end">
+                                            <span
+                                                class="{{ $transaction->type == 'income' ? 'text-green-600' : 'text-red-600' }} font-semibold">
+                                                {{ $transaction->type == 'income' ? '+' : '-' }}${{ number_format($transaction->amount, 2) }}
+                                            </span>
+                                            <span class="text-xs text-gray-500 mt-1">
+                                                {{ \App\Models\Profile::where('id', session('profile_id'))->value('full_name') }}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="font-medium">{{ $transaction->category == 'Not Exist' ? 'Other' : $transaction->category }}</p>
-                                    <p class="text-xs text-gray-500">{{ $transaction->date }},{{ \App\Models\Profile::where('id', session('profile_id'))->value('full_name') }}</p>
-                                </div>
-                            </div>
-                            <span class="{{ $transaction->type == 'income' ? 'text-green-500' : 'text-red-500' }}">{{ $transaction->type == 'income' ? '+' : '-' }}${{ $transaction->amount }}</span>
+                    @empty
+                        <div class="p-8 text-center text-gray-500">
+                            <i class="fas fa-receipt text-gray-300 text-4xl mb-3"></i>
+                            <p>No transactions found</p>
                         </div>
-                    @endforeach
+                    @endforelse
                 </div>
+
+                @if($transactions->hasPages())
+                    <div class="px-6 py-3 bg-gray-50 border-t border-gray-100">
+                        {{ $transactions->links('pagination::tailwind') }}
+                    </div>
+                @endif
             </div>
         </div>
 

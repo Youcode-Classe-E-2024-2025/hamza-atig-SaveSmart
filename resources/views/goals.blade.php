@@ -347,7 +347,7 @@
                                                 <a href="/bet/{{ $goal->id }}"
                                                     class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center">
                                                     <i class="fas fa-coins mr-2"></i>
-                                                    Bet {{ intval($goal->amount / 10) }}$
+                                                    Contribute {{ intval($goal->amount / 10) }}$
                                                 </a>
                                             @else
                                                 <span class="bg-green-500 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center">
