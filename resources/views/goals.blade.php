@@ -299,79 +299,231 @@
 
                 <!-- Goals List -->
                 <div class="space-y-5 max-h-[300px] overflow-y-auto">
-                    @foreach (\App\Models\Goal::where('profile_id', session('profile_id'))->get() as $goal)
-                        <div
-                            class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
-                            <div class="flex">
-                                <!-- Goal Image/Avatar -->
-                                <div class="w-1/4 bg-indigo-100 h-50 relative">
-                                    <img src="{{ asset('storage/' . $goal->avatar) }}" alt="Goal Image"
-                                        class="absolute inset-0 w-full h-full object-cover" />
-                                    <div class="absolute top-2 left-2">
-                                        <span
-                                            class="inline-block px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-full">{{ $goal->category }}</span>
-                                    </div>
-                                </div>
+                    @foreach (\App\Models\Goal::where('profile_id', session('profile_id'))->orderBy('created_at', 'desc')->get() as $goal)
+                                    <div
+                                        class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all hover:shadow-md">
+                                        <div class="flex">
+                                            <!-- Goal Image/Avatar -->
+                                            <div class="w-1/4 bg-indigo-100 h-50 relative">
+                                                <img src="{{ asset('storage/' . $goal->avatar) }}" alt="Goal Image"
+                                                    class="absolute inset-0 w-full h-full object-cover" />
+                                                <div class="absolute top-2 left-2">
+                                                    <span
+                                                        class="inline-block px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-full">{{ $goal->category }}</span>
+                                                </div>
+                                            </div>
 
-                                <!-- Goal Content -->
-                                <div class="w-3/4 pl-6 pr-6">
-                                    <div class="flex justify-between items-start mb-4 pt-4">
-                                        <div>
-                                            <h3 class="text-lg font-bold text-gray-800">{{ $goal->goal }}</h3>
-                                            <p class="text-sm text-gray-500 mt-1">{{ $goal->description }}</p>
-                                        </div>
-                                        <div class="flex space-x-2">
-                                            <button class="text-gray-400 hover:text-indigo-600 transition-colors">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </button>
-                                            <a href="/deletegoal/{{ $goal->id }}"
-                                                class="text-gray-400 hover:text-red-600 transition-colors">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </div>
-                                    </div>
+                                            <!-- Goal Content -->
+                                            <div class="w-3/4 pl-6 pr-6">
+                                                <div class="flex justify-between items-start mb-4 pt-4">
+                                                    <div>
+                                                        <h3 class="text-lg font-bold text-gray-800">{{ $goal->goal }}</h3>
+                                                        <p class="text-sm text-gray-500 mt-1">{{ $goal->description }}</p>
+                                                    </div>
+                                                    <div class="flex space-x-2">
+                                                        <button class="text-gray-400 hover:text-indigo-600 transition-colors">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                        </button>
+                                                        <a href="/deletegoal/{{ $goal->id }}"
+                                                            class="text-gray-400 hover:text-red-600 transition-colors">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
 
-                                    <div class="mb-4">
-                                        <div class="flex justify-between text-sm mb-1">
-                                            <span class="font-medium">Progress</span>
-                                            <span class="text-gray-600">${{ $goal->current_amount }} to
-                                                ${{ $goal->amount }}</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                            <div class="bg-green-500 h-2.5 rounded-full"
-                                                style="{{ 'width: ' . ($goal->current_amount / $goal->amount) * 100 . '%' }}">
+                                                <div class="mb-4">
+                                                    <div class="flex justify-between text-sm mb-1">
+                                                        <span class="font-medium">Progress</span>
+                                                        <span class="text-gray-600">${{ $goal->current_amount }} to
+                                                            ${{ $goal->amount }}</span>
+                                                    </div>
+                                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                        <div class="bg-green-500 h-2.5 rounded-full"
+                                                            style="{{ 'width: ' . ($goal->current_amount / $goal->amount) * 100 . '%' }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="goal-card relative overflow-hidden rounded-2xl p-6">
+                                                        <!-- Content Container -->
+                                                        <div class="flex flex-col space-y-4">
+                                                            <!-- Goal header shown in both states -->
+                                                            <div class="flex items-center justify-between">
+                                                                <h3 class="text-xl font-bold text-gray-800">
+                                                                    <i class="fas fa-trophy text-amber-500 mr-2"></i>
+                                                                    <span>Goal Progress</span>
+                                                                </h3>
+
+                                                                <div
+                                                                    class="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
+                                                                    @if ($goal->status != 'completed')                                                                    
+                                                                    ${{ $goal->amount }} Total
+                                                                    @endif
+                                                                    @if ($goal->status == 'completed')
+                                                                    Completed
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Contribution Section -->
+                                                            @if ($goal->status != 'completed')
+                                                                                                    @php
+                                                                                                        $lastBet = \App\Models\History::where('user_id', auth()->id())
+                                                                                                            ->where('note', 'like', '%Contributed $% to goal: ' . $goal->goal)
+                                                                                                            ->latest()
+                                                                                                            ->first();
+                                                                                                        $canContribute = !$lastBet || now()->diffInDays($lastBet->created_at) >= 1;
+                                                                                                        $contributionAmount = intval($goal->amount / 10);
+                                                                                                    @endphp
+
+                                                                                                    <div id="contribute-section-{{ $goal->id }}" class="mt-2">
+                                                                                                        @if ($canContribute)
+                                                                                                            <div class="flex flex-col space-y-4">
+                                                                                                                <div class="text-sm text-gray-600">
+                                                                                                                    <i class="fas fa-info-circle mr-1"></i>
+                                                                                                                    Ready to make progress? Contribute now!
+                                                                                                                </div>
+
+                                                                                                                <a href="/bet/{{ $goal->id }}"
+                                                                                                                    class="group flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-amber-200 to-amber-300 py-3 px-4 font-semibold text-gray-800 border border-amber-400 shadow-sm transition-all duration-200 hover:shadow-md hover:from-amber-300 hover:to-amber-400">
+                                                                                                                    <i
+                                                                                                                        class="fas fa-coins mr-2 text-amber-600 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110"></i>
+                                                                                                                    <span>Contribute ${{ $contributionAmount }}</span>
+                                                                                                                </a>
+                                                                                                            </div>
+                                                                                                        @else
+                                                                                                            <div class="space-y-4">
+                                                                                                                <div id="countdown-section-{{ $goal->id }}"
+                                                                                                                    class="rounded-xl bg-gray-200 p-4">
+                                                                                                                    <div class="mb-2 text-sm font-medium text-gray-600">
+                                                                                                                        <i class="fas fa-clock mr-1"></i>
+                                                                                                                        Next contribution available in:
+                                                                                                                    </div>
+
+                                                                                                                    <div id="countdown-{{ $goal->id }}"
+                                                                                                                        class="text-center text-2xl font-bold text-gray-800"></div>
+
+                                                                                                                    <div class="mt-3 h-2 overflow-hidden rounded-full bg-gray-300">
+                                                                                                                        <div id="progress-bar-{{ $goal->id }}"
+                                                                                                                            class="h-full bg-gradient-to-r from-gray-500 to-gray-600 transition-all duration-1000">
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+
+                                                                                                                <button
+                                                                                                                    onclick="confirmSkip('{{ $goal->id }}', '{{ $contributionAmount }}')"
+                                                                                                                    class="flex w-full items-center justify-center rounded-xl border border-blue-300 bg-blue-50 py-3 px-4 font-medium text-blue-700 transition-colors duration-200 hover:bg-blue-100">
+                                                                                                                    <i class="fas fa-forward mr-2"></i>
+                                                                                                                    <span>Skip Waiting Period</span>
+                                                                                                                </button>
+                                                                                                            </div>
+
+                                                                                                            <script>
+                                                                                                                (function startCountdown(goalId, lastBetTime) {
+                                                                                                                    const nextBetTime = new Date(new Date(lastBetTime).getTime() + 24 * 60 * 60 * 1000);
+                                                                                                                    const totalWaitTime = 24 * 60 * 60 * 1000;
+                                                                                                                    const countdownElem = document.getElementById("countdown-" + goalId);
+                                                                                                                    const progressBar = document.getElementById("progress-bar-" + goalId);
+
+                                                                                                                    function updateCountdown() {
+                                                                                                                        const now = new Date();
+                                                                                                                        const timeLeft = nextBetTime - now;
+                                                                                                                        const percentComplete = 100 - ((timeLeft / totalWaitTime) * 100);
+
+                                                                                                                        // Update progress bar
+                                                                                                                        if (progressBar) {
+                                                                                                                            progressBar.style.width = Math.max(5, Math.min(100, percentComplete)) + "%";
+                                                                                                                        }
+
+                                                                                                                        if (timeLeft > 0) {
+                                                                                                                            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                                                                                                                            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                                                                                                                            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                                                                                                                            // Format with leading zeros
+                                                                                                                            const formattedHours = String(hours).padStart(2, '0');
+                                                                                                                            const formattedMinutes = String(minutes).padStart(2, '0');
+                                                                                                                            const formattedSeconds = String(seconds).padStart(2, '0');
+
+                                                                                                                            countdownElem.innerHTML = `
+                                                                                                                                                                                <div class="flex items-center justify-center space-x-2">
+                                                                                                                                                                                    <div class="flex flex-col items-center">
+                                                                                                                                                                                        <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedHours}</span>
+                                                                                                                                                                                        <span class="text-xs text-gray-600">hours</span>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                    <span class="text-xl">:</span>
+                                                                                                                                                                                    <div class="flex flex-col items-center">
+                                                                                                                                                                                        <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedMinutes}</span>
+                                                                                                                                                                                        <span class="text-xs text-gray-600">min</span>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                    <span class="text-xl">:</span>
+                                                                                                                                                                                    <div class="flex flex-col items-center">
+                                                                                                                                                                                        <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedSeconds}</span>
+                                                                                                                                                                                        <span class="text-xs text-gray-600">sec</span>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                            `;
+                                                                                                                        } else {
+                                                                                                                            countdownElem.innerHTML = `<span class="text-green-600">Ready to contribute!</span>`;
+                                                                                                                            location.reload();
+                                                                                                                        }
+                                                                                                                    }
+
+                                                                                                                    updateCountdown();
+                                                                                                                    setInterval(updateCountdown, 1000);
+                                                                                                                })("{{ $goal->id }}", "{{ $lastBet->created_at ?? now() }}");
+
+                                                                                                                function confirmSkip(goalId, amount) {
+                                                                                                                    if (confirm("🚨 WARNING: Skipping the timer is risky. Are you sure you want to continue?")) {
+                                                                                                                        document.getElementById("countdown-section-" + goalId).style.display = "none";
+
+                                                                                                                        let contributeSection = document.getElementById("contribute-section-" + goalId);
+                                                                                                                        contributeSection.innerHTML = `
+                                                                                                                                                                            <div class="flex flex-col space-y-4">
+                                                                                                                                                                                <div class="text-sm text-gray-600">
+                                                                                                                                                                                    <i class="fas fa-info-circle mr-1"></i>
+                                                                                                                                                                                    Ready to make progress? Contribute now!
+                                                                                                                                                                                </div>
+
+                                                                                                                                                                                <a href="/bet/${goalId}"
+                                                                                                                                                                                class="group flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-amber-200 to-amber-300 py-3 px-4 font-semibold text-gray-800 border border-amber-400 shadow-sm transition-all duration-200 hover:shadow-md hover:from-amber-300 hover:to-amber-400">
+                                                                                                                                                                                <i
+                                                                                                                                                                                    class="fas fa-coins mr-2 text-amber-600 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110"></i>
+                                                                                                                                                                                <span>Contribute $${amount}</span>
+                                                                                                                                                                                </a>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        `;
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            </script>
+                                                                                                        @endif
+                                                                                                    </div>
+                                                            @else
+                                                                <!-- Completed goal display -->
+                                                                <div class="flex flex-col space-y-2">
+                                                                    <div class="rounded-lg bg-emerald-50 p-4 text-center">
+                                                                        <i class="fas fa-check-circle text-3xl text-emerald-500 mb-2"></i>
+                                                                        <p class="text-emerald-700 font-medium">Goal successfully completed!
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex justify-between items-center pb-4">
+                                                    <div class="flex items-center text-sm text-gray-500">
+                                                        <span><i class="far fa-calendar-alt mr-1"></i>Target Date:
+                                                            {{ $goal->target_date }}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span
+                                                            class="px-3 py-1 bg-{{ ($goal->current_amount >= $goal->amount) ? 'red-100' : 'green-100'}} text-green-800 rounded-full text-xs font-medium">{{ number_format(min(($goal->current_amount / $goal->amount) * 100, 100), 2) }}%
+                                                            completed</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="flex justify-between items-center mt-4">
-                                            @if ($goal->status != 'completed')
-                                                <a href="/bet/{{ $goal->id }}"
-                                                    class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center">
-                                                    <i class="fas fa-coins mr-2"></i>
-                                                    Contribute {{ intval($goal->amount / 10) }}$
-                                                </a>
-                                            @else
-                                                <span class="bg-green-500 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center">
-                                                    <i class="fas fa-check mr-2"></i>
-                                                    Completed
-                                                </span>
-                                            @endif
-                                        </div>
                                     </div>
-
-                                    <div class="flex justify-between items-center pb-4">
-                                        <div class="flex items-center text-sm text-gray-500">
-                                            <span><i class="far fa-calendar-alt mr-1"></i>Target Date:
-                                                {{ $goal->target_date }}</span>
-                                        </div>
-                                        <div>
-                                            <span
-                                                class="px-3 py-1 bg-{{ ($goal->current_amount >= $goal->amount) ? 'red-100' : 'green-100'}} text-green-800 rounded-full text-xs font-medium">{{ number_format(min(($goal->current_amount / $goal->amount) * 100, 100), 2) }}%
-                                                completed</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     @endforeach
                 </div>
             </div>
