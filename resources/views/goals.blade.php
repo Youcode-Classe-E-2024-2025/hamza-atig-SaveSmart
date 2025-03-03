@@ -176,7 +176,7 @@
                         <p class="text-sm text-gray-500 font-medium">Achievement Rate</p>
                         <h3 class="text-2xl font-bold text-gray-800">
                             @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0)
-                                {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}%
+                                {{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ( (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() ) * 50 ) : 0 }}%
                             @else
                                 0%
                             @endif

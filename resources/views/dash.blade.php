@@ -252,11 +252,11 @@
                     </h2>
                     <div class="w-full bg-gray-200 rounded-full h-3 mt-4">
                         <div class="bg-green-500 h-3 rounded-full"
-                            style="width: @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) {{ (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) }}% @else 0% @endif">
+                            style="width: min({{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ( (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() ) * 50 ) : 0 }}%, 100%);">
                         </div>
                     </div>
                     <p class="text-sm text-gray-600 font-medium mt-2">
-                        {{ \App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0 ? (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() * 100) : 0 }}%
+                        {{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ( (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() ) * 50 ) : 0 }}%
                         completed
                     </p>
                 </div>
