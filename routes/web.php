@@ -37,6 +37,10 @@ Route::get('/goals', function () {
     return view('goals');
 })->name('goals')->middleware('VerifyLoggedProfile', 'auth');
 
+Route::get('/save', function () {
+    return view('save');
+})->name('save')->middleware('VerifyLoggedProfile', 'auth');
+
 Route::post('/signup', [App\Http\Controllers\AuthController::class, 'store'])->name('signup');
 
 Route::get('/logout-profile', [App\Http\Controllers\ProfileController::class, 'destroy']);

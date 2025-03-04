@@ -85,9 +85,9 @@
                 <i class="fas fa-bullseye"></i>
                 <span>Goals</span>
             </a>
-            <a href="#" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
+            <a href="/save" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
                 <i class="fas fa-chart-bar"></i>
-                <span>Reports</span>
+                <span>Saving</span>
             </a>
         </nav>
         <div class="absolute bottom-0 pb-4">

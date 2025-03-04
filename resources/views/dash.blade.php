@@ -55,9 +55,9 @@
                     <i class="fas fa-bullseye"></i>
                     <span>Goals</span>
                 </a>
-                <a href="#" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Reports</span>
+                <a href="/save" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
+                    <i class="fas fa-piggy-bank"></i>
+                    <span>Saving</span>
                 </a>
             </nav>
 
