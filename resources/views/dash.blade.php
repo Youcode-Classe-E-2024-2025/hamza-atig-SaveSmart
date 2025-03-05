@@ -55,7 +55,8 @@
                     <i class="fas fa-bullseye"></i>
                     <span>Goals</span>
                 </a>
-                <a href="/save" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
+                <a href="/save"
+                    class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
                     <i class="fas fa-piggy-bank"></i>
                     <span>Saving</span>
                 </a>
@@ -66,7 +67,7 @@
                     <img src="{{ asset('storage/' . session('avatar')) }}" class="w-8 h-8 rounded-full">
                     <div>
                         <div class="text-sm font-medium">{{ session('full_name') }}</div>
-                        <div class="text-xs text-gray-400 truncate">{{ auth()->user()->email }}</div>
+                        <div class="text-xs text-gray-400 truncate">{{ auth()->user()->email }} {{ session('profile_id') }}</div>
                     </div>
                     <a href="/logout-profile" class="ml-auto text-red-500 hover:text-red-600">
                         <i class="fas fa-sign-out-alt"></i>
@@ -251,12 +252,17 @@
                         ${{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->sum('amount') }}
                     </h2>
                     <div class="w-full bg-gray-200 rounded-full h-3 mt-4">
-                        <div class="bg-green-500 h-3 rounded-full"
-                            style="width: min({{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ( (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() ) * 50 ) : 0 }}%, 100%);">
+                        <div class="bg-green-500 h-3 rounded-full" 
+                        @php
+                            $totalGoals = \App\Models\Goal::where('profile_id', session('profile_id'))->count();
+                            $completedGoals = \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'completed')->count();
+                            $progress = ($completedGoals / $totalGoals) * 100;
+                        @endphp
+                            style="width: {{ $progress }}%">
                         </div>
                     </div>
                     <p class="text-sm text-gray-600 font-medium mt-2">
-                        {{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ( (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() ) * 50 ) : 0 }}%
+                        {{ $progress }}%
                         completed
                     </p>
                 </div>
