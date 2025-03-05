@@ -85,7 +85,8 @@
                 <i class="fas fa-bullseye"></i>
                 <span>Goals</span>
             </a>
-            <a href="/save" class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
+            <a href="/save"
+                class="flex items-center space-x-3 hover:bg-blue-700 p-3 rounded-lg transition duration-200">
                 <i class="fas fa-chart-bar"></i>
                 <span>Saving</span>
             </a>
@@ -176,7 +177,7 @@
                         <p class="text-sm text-gray-500 font-medium">Achievement Rate</p>
                         <h3 class="text-2xl font-bold text-gray-800">
                             @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0)
-                                {{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ( (\App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() ) * 50 ) : 0 }}%
+                                {{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ((\App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count()) * 50) : 0 }}%
                             @else
                                 0%
                             @endif
@@ -354,11 +355,11 @@
 
                                                                 <div
                                                                     class="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700">
-                                                                    @if ($goal->status != 'completed')                                                                    
-                                                                    ${{ $goal->amount }} Total
+                                                                    @if ($goal->status != 'completed')
+                                                                        ${{ $goal->amount }} Total
                                                                     @endif
                                                                     @if ($goal->status == 'completed')
-                                                                    Completed
+                                                                        Completed
                                                                     @endif
                                                                 </div>
                                                             </div>
@@ -445,23 +446,23 @@
                                                                                                                             const formattedSeconds = String(seconds).padStart(2, '0');
 
                                                                                                                             countdownElem.innerHTML = `
-                                                                                                                                                                                <div class="flex items-center justify-center space-x-2">
-                                                                                                                                                                                    <div class="flex flex-col items-center">
-                                                                                                                                                                                        <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedHours}</span>
-                                                                                                                                                                                        <span class="text-xs text-gray-600">hours</span>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <span class="text-xl">:</span>
-                                                                                                                                                                                    <div class="flex flex-col items-center">
-                                                                                                                                                                                        <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedMinutes}</span>
-                                                                                                                                                                                        <span class="text-xs text-gray-600">min</span>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <span class="text-xl">:</span>
-                                                                                                                                                                                    <div class="flex flex-col items-center">
-                                                                                                                                                                                        <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedSeconds}</span>
-                                                                                                                                                                                        <span class="text-xs text-gray-600">sec</span>
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                </div>
-                                                                                                                                                                            `;
+                                                                                                                                                                                                                                                                                                        <div class="flex items-center justify-center space-x-2">
+                                                                                                                                                                                                                                                                                                            <div class="flex flex-col items-center">
+                                                                                                                                                                                                                                                                                                                <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedHours}</span>
+                                                                                                                                                                                                                                                                                                                <span class="text-xs text-gray-600">hours</span>
+                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                            <span class="text-xl">:</span>
+                                                                                                                                                                                                                                                                                                            <div class="flex flex-col items-center">
+                                                                                                                                                                                                                                                                                                                <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedMinutes}</span>
+                                                                                                                                                                                                                                                                                                                <span class="text-xs text-gray-600">min</span>
+                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                            <span class="text-xl">:</span>
+                                                                                                                                                                                                                                                                                                            <div class="flex flex-col items-center">
+                                                                                                                                                                                                                                                                                                                <span class="rounded bg-gray-800 px-2 py-1 text-xl text-white">${formattedSeconds}</span>
+                                                                                                                                                                                                                                                                                                                <span class="text-xs text-gray-600">sec</span>
+                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                    `;
                                                                                                                         } else {
                                                                                                                             countdownElem.innerHTML = `<span class="text-green-600">Ready to contribute!</span>`;
                                                                                                                             location.reload();
@@ -478,20 +479,20 @@
 
                                                                                                                         let contributeSection = document.getElementById("contribute-section-" + goalId);
                                                                                                                         contributeSection.innerHTML = `
-                                                                                                                                                                            <div class="flex flex-col space-y-4">
-                                                                                                                                                                                <div class="text-sm text-gray-600">
-                                                                                                                                                                                    <i class="fas fa-info-circle mr-1"></i>
-                                                                                                                                                                                    Ready to make progress? Contribute now!
-                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                    <div class="flex flex-col space-y-4">
+                                                                                                                                                                                                                                                                                                        <div class="text-sm text-gray-600">
+                                                                                                                                                                                                                                                                                                            <i class="fas fa-info-circle mr-1"></i>
+                                                                                                                                                                                                                                                                                                            Ready to make progress? Contribute now!
+                                                                                                                                                                                                                                                                                                        </div>
 
-                                                                                                                                                                                <a href="/bet/${goalId}"
-                                                                                                                                                                                class="group flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-amber-200 to-amber-300 py-3 px-4 font-semibold text-gray-800 border border-amber-400 shadow-sm transition-all duration-200 hover:shadow-md hover:from-amber-300 hover:to-amber-400">
-                                                                                                                                                                                <i
-                                                                                                                                                                                    class="fas fa-coins mr-2 text-amber-600 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110"></i>
-                                                                                                                                                                                <span>Contribute $${amount}</span>
-                                                                                                                                                                                </a>
-                                                                                                                                                                            </div>
-                                                                                                                                                                        `;
+                                                                                                                                                                                                                                                                                                        <a href="/bet/${goalId}"
+                                                                                                                                                                                                                                                                                                        class="group flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-amber-200 to-amber-300 py-3 px-4 font-semibold text-gray-800 border border-amber-400 shadow-sm transition-all duration-200 hover:shadow-md hover:from-amber-300 hover:to-amber-400">
+                                                                                                                                                                                                                                                                                                        <i
+                                                                                                                                                                                                                                                                                                            class="fas fa-coins mr-2 text-amber-600 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110"></i>
+                                                                                                                                                                                                                                                                                                        <span>Contribute $${amount}</span>
+                                                                                                                                                                                                                                                                                                        </a>
+                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                `;
                                                                                                                     }
                                                                                                                 }
                                                                                                             </script>
@@ -537,26 +538,28 @@
         document.addEventListener('DOMContentLoaded', function () {
             const ctx = document.getElementById('progressChart').getContext('2d');
 
+            @php
+                $goals = \App\Models\Goal::where('profile_id', session('profile_id'))->get();
+                $totalGoals = $goals->count();
+                $activeGoals = $goals->where('status', 'active')->count();
+                $completedGoals = $goals->where('status', 'completed')->count();
+                $expiredGoals = $goals->where('target_date', '<', now()->toDateString())->where('status', 'active')->count();
+            @endphp
+
             const progressChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Emergency Fund', 'Stock Portfolio', 'New Car', 'Dream Vacation'],
+                    labels: ['All Goals', 'Active Goals', 'Completed Goals', 'Expired Goals'],
                     datasets: [
                         {
                             label: 'Current Amount',
-                            data: [3200, 5000, 8000, 1500],
+                            data: [{{ $totalGoals }}, {{ $activeGoals }}, {{ $completedGoals }}, {{ $expiredGoals }}],  // Replace these with actual amounts if needed
                             backgroundColor: [
                                 '#10b981', // green
                                 '#8b5cf6', // purple
                                 '#3b82f6', // blue
                                 '#f59e0b'  // amber
                             ],
-                            borderRadius: 6
-                        },
-                        {
-                            label: 'Target Amount',
-                            data: [10000, 15000, 25000, 4000],
-                            backgroundColor: '#e5e7eb',
                             borderRadius: 6
                         }
                     ]
@@ -579,7 +582,7 @@
                             beginAtZero: true,
                             ticks: {
                                 callback: function (value) {
-                                    return '$' + value.toLocaleString();
+                                    return value;
                                 }
                             }
                         }
@@ -587,6 +590,7 @@
                 }
             });
         });
+
 
         document.addEventListener('DOMContentLoaded', function () {
             const alert = document.getElementById('sweetAlert');
