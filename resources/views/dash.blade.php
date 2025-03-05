@@ -67,7 +67,7 @@
                     <img src="{{ asset('storage/' . session('avatar')) }}" class="w-8 h-8 rounded-full">
                     <div>
                         <div class="text-sm font-medium">{{ session('full_name') }}</div>
-                        <div class="text-xs text-gray-400 truncate">{{ auth()->user()->email }} {{ session('profile_id') }}</div>
+                        <div class="text-xs text-gray-400 truncate">{{ auth()->user()->email }}</div>
                     </div>
                     <a href="/logout-profile" class="ml-auto text-red-500 hover:text-red-600">
                         <i class="fas fa-sign-out-alt"></i>
