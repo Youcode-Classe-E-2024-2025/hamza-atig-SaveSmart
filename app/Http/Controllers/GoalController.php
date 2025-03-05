@@ -115,7 +115,12 @@ class GoalController extends Controller
         if (now()->gt($goal->target_date)) {
             return back()->with('error', 'This goal has expired');
         }
-        $amount = intval(($goal->amount / 100 * 30)/ \App\Models\User::where('id', auth()->id())->value('profile_id'));
+
+        $monthlyIncome = Balence::where('user_id', auth()->id())->value('Montly_income');
+        $currentBalance = Balence::where('user_id', auth()->id())->value('balance');
+        $goalCount = Goal::where('user_id', auth()->id())->count();
+        $daysInMonth = now()->daysInMonth;
+        $amount = intval(($monthlyIncome * 0.3 * $currentBalance * 0.01) / ($goalCount * $daysInMonth));
 
         if ($request->has('custom_amount')) {
             $amount = $request->validate([

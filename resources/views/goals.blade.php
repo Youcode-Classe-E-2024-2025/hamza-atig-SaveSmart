@@ -371,7 +371,8 @@
                                                                                                             ->latest()
                                                                                                             ->first();
                                                                                                         $canContribute = !$lastBet || now()->diffInDays($lastBet->created_at) >= 1;
-                                                                                                        $contributionAmount = intval((\App\Models\Balence::where('user_id', auth()->id())->value('balance') / 100 * 30)/ \App\Models\User::where('id', auth()->id())->value('family_members'));
+                                                                                                        $daysInMonth = now()->daysInMonth;
+                                                                                                        $contributionAmount = intval((\App\Models\Balence::where('user_id', auth()->id())->value('Montly_income') * 0.3 * (\App\Models\Balence::where('user_id', auth()->id())->value('balance')) * 0.01) / (\App\Models\Goal::where('user_id', auth()->id())->count() * $daysInMonth));
                                                                                                     @endphp
 
                                                                                                     <div id="contribute-section-{{ $goal->id }}" class="mt-2">
