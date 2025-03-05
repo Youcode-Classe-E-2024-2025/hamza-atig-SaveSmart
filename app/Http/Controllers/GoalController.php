@@ -115,7 +115,7 @@ class GoalController extends Controller
         if (now()->gt($goal->target_date)) {
             return back()->with('error', 'This goal has expired');
         }
-        $amount = intval($goal->amount / 10);
+        $amount = intval(($goal->amount / 100 * 30)/ \App\Models\User::where('id', auth()->id())->value('profile_id'));
 
         if ($request->has('custom_amount')) {
             $amount = $request->validate([

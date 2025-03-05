@@ -133,7 +133,7 @@
                     <div>
                         <p class="text-sm text-gray-500 font-medium">Active Goals</p>
                         <h3 class="text-2xl font-bold text-gray-800">
-                            {{ \App\Models\Goal::where('status', 'active')->count() }}
+                            {{ \App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'active')->count() }}
                         </h3>
                     </div>
                 </div>
@@ -176,7 +176,7 @@
                         <p class="text-sm text-gray-500 font-medium">Achievement Rate</p>
                         <h3 class="text-2xl font-bold text-gray-800">
                             @if (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0)
-                                {{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ( (\App\Models\Goal::where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() ) * 50 ) : 0 }}%
+                                {{ (\App\Models\Goal::where('profile_id', session('profile_id'))->count() > 0) ? ( (\App\Models\Goal::where('profile_id', session('profile_id'))->where('status', 'completed')->count() / \App\Models\Goal::where('profile_id', session('profile_id'))->count() ) * 50 ) : 0 }}%
                             @else
                                 0%
                             @endif
@@ -371,7 +371,7 @@
                                                                                                             ->latest()
                                                                                                             ->first();
                                                                                                         $canContribute = !$lastBet || now()->diffInDays($lastBet->created_at) >= 1;
-                                                                                                        $contributionAmount = intval($goal->amount / 10);
+                                                                                                        $contributionAmount = intval((\App\Models\Balence::where('user_id', auth()->id())->value('balance') / 100 * 30)/ \App\Models\User::where('id', auth()->id())->value('family_members'));
                                                                                                     @endphp
 
                                                                                                     <div id="contribute-section-{{ $goal->id }}" class="mt-2">
