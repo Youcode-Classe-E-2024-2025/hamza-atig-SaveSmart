@@ -1,67 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Youdemy - Plateforme de Cours en Ligne
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Contexte du Projet
+Youdemy est une plateforme de cours en ligne qui vise à offrir une expérience d'apprentissage interactive et personnalisée pour les étudiants et les enseignants.
 
-## About Laravel
+## Diagrame
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fonctionnalités Requises
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Partie Front Office
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Visiteur
+- Accès au catalogue des cours avec pagination.
+- Recherche de cours par mots-clés.
+- Création d'un compte avec le choix du rôle (Etudiant ou Enseignant).
 
-## Learning Laravel
+#### Etudiant
+- Visualisation du catalogue des cours.
+- Recherche et consultation des détails des cours (description, contenu, enseignant, etc.).
+- Inscription à un cours après authentification.
+- Accès à une section "Mes cours" regroupant les cours rejoints.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Enseignant
+- Ajout de nouveaux cours avec :
+  - Titre, description, contenu (vidéo ou document), tags et catégorie.
+- Gestion des cours :
+  - Modification, suppression et consultation des inscriptions.
+- Accès à une section "Statistiques" sur les cours :
+  - Nombre d'étudiants inscrits, Nombre de cours, etc.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Partie Back Office
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Administrateur
+- Validation des comptes enseignants.
+- Gestion des utilisateurs : Activation, suspension ou suppression.
+- Gestion des contenus : Cours, catégories et tags.
+- Insertion en masse de tags pour gagner en efficacité.
+- Accès à des statistiques globales :
+  - Nombre total de cours, répartition par catégorie, le cours avec le plus d'étudiants, Top 3 enseignants.
 
-## Laravel Sponsors
+### Fonctionnalités Transversales
+- Un cours peut contenir plusieurs tags (relation many-to-many).
+- Application du concept de polymorphisme dans les méthodes "Ajouter cours" et "Afficher cours".
+- Système d’authentification et d’autorisation pour protéger les routes sensibles.
+- Contrôle d’accès selon le rôle de l’utilisateur.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Exigences Techniques
+- Respect des principes OOP (encapsulation, héritage, polymorphisme).
+- Base de données relationnelle avec gestion des relations (one-to-many, many-to-many).
+- Utilisation des sessions PHP pour la gestion des utilisateurs connectés.
+- Système de validation des données utilisateur pour garantir la sécurité.
 
-### Premium Partners
+## Bonus
+- Recherche avancée avec filtres (catégorie, tags, auteur).
+- Statistiques avancées : taux d’engagement par cours, catégories populaires.
+- Système de notifications (ex. validation de compte enseignant, confirmation d'inscription).
+- Implémentation d’un système de commentaires ou d’évaluations sur les cours.
+- Génération de certificats PDF de complétion pour les étudiants.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Modalités Pédagogiques
+- **Travail individuel**
+- **Durée :** 5 jours
+- **Date de lancement :** 13/01/2025 à 09:00 AM
+- **Date limite de soumission :** 20/01/2025 avant 05:30 PM
 
-## Contributing
+## Modalités d'évaluation
+Durée de 35 minutes :
+1. **Présentation publique** du projet devant les jurys (~10 minutes).
+2. **Code Review & Questions techniques** (10 minutes).
+3. **Mise en situation** (15 minutes).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Livrables
+- Lien du repository GitHub du projet.
+- Lien de la présentation.
+- Diagrammes UML :
+  - Diagramme des cas d'utilisation.
+  - Diagramme de classes.
 
-## Code of Conduct
+## Critères de Performance
+- Séparation claire entre logique métier et architecture.
+- Cohérence dans l'application des concepts OOP.
+- Amélioration de la structure et de la lisibilité du code.
+- Utilisation appropriée des classes, objets et méthodes.
+- Design responsive pour une adaptation à tous types d'écrans.
+- Validation côté client (HTML5, JavaScript) et côté serveur.
+- Protection contre les attaques XSS, CSRF et SQL injection (requêtes préparées, validation des entrées).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+### Auteur(s) :
+Projet réalisé par [Votre Nom / Équipe]
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Licence
+Ce projet est sous licence [Licence de votre choix].
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# hamza-atig-SaveSmart
