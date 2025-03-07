@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\HistoryExport;
 use App\Models\Balence;
 use App\Models\History;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Profiler\Profile;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class HistoryController extends Controller
 {
@@ -103,5 +106,9 @@ class HistoryController extends Controller
 
         $pdf = Pdf::loadView('pdf_template', $data);
         return $pdf->download('document.pdf');
+    }
+
+    public function excel(History $history){
+        return Excel::download(new HistoryExport, 'history.xlsx');
     }
 }
