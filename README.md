@@ -3,6 +3,8 @@
 ## Contexte du Projet
 Face à l'importance de la gestion financière personnelle, **SaveSmart** se présente comme un outil simple et efficace pour aider chacun à maîtriser ses finances. Ce projet s’inscrit dans un cursus de niveau intermédiaire, alliant la mise en pratique des compétences **Laravel** et la gestion de projet en mode **agile**.
 
+## Diagrame
+
 ## Objectifs du Projet
 
 ### Fonctionnels
