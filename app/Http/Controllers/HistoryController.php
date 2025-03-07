@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Balence;
 use App\Models\History;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
@@ -89,5 +90,18 @@ class HistoryController extends Controller
     public function destroy(History $history)
     {
         //
+    }
+
+    public function pdf(History $history){
+        $data = [
+            'title' => 'History Pdf',
+            'history' => $history->where('user_id', auth()->id())->count(),
+            'histories' => $history->where('user_id', auth()->id())->get(),
+            'profile_id' => session()->get('profile_id'),
+            'profile_email' => session()->get('full_name')
+        ];
+
+        $pdf = Pdf::loadView('pdf_template', $data);
+        return $pdf->download('document.pdf');
     }
 }

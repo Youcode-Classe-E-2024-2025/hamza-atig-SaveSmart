@@ -59,6 +59,10 @@ Route::post('/addgoal', [App\Http\Controllers\GoalController::class, 'store'])->
 
 Route::get('/home', [App\Http\Controllers\AuthController::class, 'index'])->name('home');
 
+Route::get('/pdf', [App\Http\Controllers\HistoryController::class, 'pdf'])->name('pdf');
+
+Route::get('/excel', [App\Http\Controllers\HistoryController::class, 'excel'])->name('excel');
+
 Route::get('/deletegoal/{goal}', [App\Http\Controllers\GoalController::class, 'destroy'])->name('deletegoal')->middleware('auth', 'VerifyLoggedProfile');
 
 Route::get('/bet/{goal}', [App\Http\Controllers\GoalController::class, 'bet'])->name('bet')->middleware('auth', 'VerifyLoggedProfile');
