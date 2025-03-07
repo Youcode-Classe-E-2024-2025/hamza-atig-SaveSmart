@@ -71,4 +71,6 @@ Route::post('/transaction', [App\Http\Controllers\HistoryController::class, 'sto
 
 Route::post('/updateIncome', [App\Http\Controllers\BalenceController::class, 'update'])->name('updateIncome');
 
+Route::delete('/balance/{balence}', [App\Http\Controllers\BalenceController::class, 'destroy'])->name('balance.destroy');
+
 // Route::get('/profile/{user}', [App\Http\Controllers\UserController::class, 'show'])->name('show');
