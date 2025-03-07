@@ -4,6 +4,7 @@
 Face à l'importance de la gestion financière personnelle, **SaveSmart** se présente comme un outil simple et efficace pour aider chacun à maîtriser ses finances. Ce projet s’inscrit dans un cursus de niveau intermédiaire, alliant la mise en pratique des compétences **Laravel** et la gestion de projet en mode **agile**.
 
 ## Diagrame
+![diagrame de class](https://raw.githubusercontent.com/Youcode-Classe-E-2024-2025/hamza-atig-SaveSmart/refs/heads/main/!class.png)
 
 ## Objectifs du Projet
 
