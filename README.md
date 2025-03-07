@@ -1,95 +1,64 @@
-# Youdemy - Plateforme de Cours en Ligne
+# SaveSmart - Gestion Financière Personnelle
 
 ## Contexte du Projet
-Youdemy est une plateforme de cours en ligne qui vise à offrir une expérience d'apprentissage interactive et personnalisée pour les étudiants et les enseignants.
+Face à l'importance de la gestion financière personnelle, **SaveSmart** se présente comme un outil simple et efficace pour aider chacun à maîtriser ses finances. Ce projet s’inscrit dans un cursus de niveau intermédiaire, alliant la mise en pratique des compétences **Laravel** et la gestion de projet en mode **agile**.
 
-## Diagrame
+## Objectifs du Projet
 
-## Fonctionnalités Requises
+### Fonctionnels
+- **(S1)** Inscription/authentification sécurisée des utilisateurs.
+- **(S1)** Ajout de plusieurs utilisateurs sous un même compte familial.
+- **(S1)** Gestion des revenus, dépenses et objectifs financiers via des formulaires CRUD.
+- **(S1)** Visualisation graphique des finances (tableaux, diagrammes).
+- **(S1)** Catégories personnalisables (ex. Alimentation, Logement, Divertissement, Épargne).
+- **(S2)** Création d’objectifs d’épargne (ex. Acheter un PC, Partir en vacances).
+- **(S2)** Affichage de la progression des montants économisés.
+- **(S2)** Développement d’un algorithme d’optimisation budgétaire basé sur des règles logiques.
+- **(S2)** Intégration de la méthode 50/30/20 (Besoins 50% / Envies 30% / Épargne 20%).
+- **(S2)** Export des données en **PDF** ou **CSV**.
 
-### Partie Front Office
-
-#### Visiteur
-- Accès au catalogue des cours avec pagination.
-- Recherche de cours par mots-clés.
-- Création d'un compte avec le choix du rôle (Etudiant ou Enseignant).
-
-#### Etudiant
-- Visualisation du catalogue des cours.
-- Recherche et consultation des détails des cours (description, contenu, enseignant, etc.).
-- Inscription à un cours après authentification.
-- Accès à une section "Mes cours" regroupant les cours rejoints.
-
-#### Enseignant
-- Ajout de nouveaux cours avec :
-  - Titre, description, contenu (vidéo ou document), tags et catégorie.
-- Gestion des cours :
-  - Modification, suppression et consultation des inscriptions.
-- Accès à une section "Statistiques" sur les cours :
-  - Nombre d'étudiants inscrits, Nombre de cours, etc.
-
-### Partie Back Office
-
-#### Administrateur
-- Validation des comptes enseignants.
-- Gestion des utilisateurs : Activation, suspension ou suppression.
-- Gestion des contenus : Cours, catégories et tags.
-- Insertion en masse de tags pour gagner en efficacité.
-- Accès à des statistiques globales :
-  - Nombre total de cours, répartition par catégorie, le cours avec le plus d'étudiants, Top 3 enseignants.
-
-### Fonctionnalités Transversales
-- Un cours peut contenir plusieurs tags (relation many-to-many).
-- Application du concept de polymorphisme dans les méthodes "Ajouter cours" et "Afficher cours".
-- Système d’authentification et d’autorisation pour protéger les routes sensibles.
-- Contrôle d’accès selon le rôle de l’utilisateur.
-
-## Exigences Techniques
-- Respect des principes OOP (encapsulation, héritage, polymorphisme).
-- Base de données relationnelle avec gestion des relations (one-to-many, many-to-many).
-- Utilisation des sessions PHP pour la gestion des utilisateurs connectés.
-- Système de validation des données utilisateur pour garantir la sécurité.
-
-## Bonus
-- Recherche avancée avec filtres (catégorie, tags, auteur).
-- Statistiques avancées : taux d’engagement par cours, catégories populaires.
-- Système de notifications (ex. validation de compte enseignant, confirmation d'inscription).
-- Implémentation d’un système de commentaires ou d’évaluations sur les cours.
-- Génération de certificats PDF de complétion pour les étudiants.
+### Techniques
+- Mise en place d’un environnement Laravel complet (installation, configuration, structuration MVC).
+- Intégration d’un système de tests unitaires et fonctionnels pour garantir la robustesse du code.
 
 ## Modalités Pédagogiques
-- **Travail individuel**
-- **Durée :** 5 jours
-- **Date de lancement :** 13/01/2025 à 09:00 AM
-- **Date limite de soumission :** 20/01/2025 avant 05:30 PM
+- **Travail individuel.**
+- **Approche itérative** : Deux cycles de développement avec un livrable à la fin de chaque semaine (**24/02/2025 → 07/02/2025**).
+- **Méthodologie agile** : Suivi du projet via **GitHub Project** avec un **backlog** et un **tableau Kanban** pour organiser et prioriser les tâches.
 
-## Modalités d'évaluation
-Durée de 35 minutes :
-1. **Présentation publique** du projet devant les jurys (~10 minutes).
-2. **Code Review & Questions techniques** (10 minutes).
-3. **Mise en situation** (15 minutes).
+## Modalités d'Évaluation
+- **Qualité du code** : Architecture Laravel, propreté du code, tests unitaires et fonctionnels.
+- **Pertinence de l’algorithme** : Logique de répartition budgétaire respectant la règle établie.
+- **Documentation** : Clarté du README, présence des diagrammes UML et suivi GitHub.
+- **Présentation orale** : Démonstration du projet et réponses aux questions.
 
 ## Livrables
-- Lien du repository GitHub du projet.
-- Lien de la présentation.
-- Diagrammes UML :
-  - Diagramme des cas d'utilisation.
-  - Diagramme de classes.
+### **Semaine 1**
+- Mise en place de **Laravel**, structure MVC, configuration de la base de données.
+- Implémentation de l’authentification et développement des formulaires CRUD pour la gestion financière.
+- Dépôt initial du projet sur **GitHub** avec documentation et organisation du backlog et Kanban.
+
+### **Semaine 2**
+- Développement de **l’algorithme d’optimisation budgétaire** et des visualisations graphiques.
+- Finalisation des **tests** et amélioration de **l’UI/UX**.
+- Ajout des **diagrammes UML** (classe et cas d’utilisation) et préparation de la présentation.
+- Livraison finale sur **GitHub** (code source, documentation, présentation).
 
 ## Critères de Performance
-- Séparation claire entre logique métier et architecture.
-- Cohérence dans l'application des concepts OOP.
-- Amélioration de la structure et de la lisibilité du code.
-- Utilisation appropriée des classes, objets et méthodes.
-- Design responsive pour une adaptation à tous types d'écrans.
-- Validation côté client (HTML5, JavaScript) et côté serveur.
-- Protection contre les attaques XSS, CSRF et SQL injection (requêtes préparées, validation des entrées).
+### **Fonctionnels**
+✅ Authentification sécurisée et gestion des finances (**CRUD**).
+✅ Répartition automatique du budget selon les règles établies.
+
+### **Techniques**
+✅ Architecture **MVC** claire, code modulaire et **tests automatisés**.
+
+### **Organisationnels**
+✅ Suivi du projet via **GitHub** avec backlog et tableau Kanban.
+✅ Respect des deadlines et qualité de la documentation.
+
+### **Pédagogiques**
+✅ Clarté des **diagrammes UML** et pertinence de la **présentation orale**.
 
 ---
-
-### Auteur(s) :
-Projet réalisé par [Votre Nom / Équipe]
-
-### Licence
-Ce projet est sous licence [Licence de votre choix].
+**SaveSmart**, votre compagnon pour une meilleure gestion financière ! 🚀
 
